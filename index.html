@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anu's English School - Master 100</title>
+    <style>
+        :root { --primary: #2980b9; --secondary: #27ae60; --admin: #c0392b; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: white; width: 95%; max-width: 550px; padding: 25px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; }
+        .tab-buttons { display: flex; justify-content: center; margin-bottom: 25px; gap: 10px; }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: #dcdde1; cursor: pointer; border-radius: 10px; font-weight: bold; }
+        .tab-btn.active { background: var(--primary); color: white; }
+        input { padding: 15px; width: 85%; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; font-size: 16px; outline: none; }
+        button.action-btn { padding: 15px; background: var(--secondary); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: bold; width: 90%; margin-top: 15px; transition: 0.3s; }
+        .hidden { display: none; }
+        #timer { font-size: 26px; color: #e67e22; font-weight: bold; margin: 15px 0; }
+        #word-display { font-size: 40px; margin: 20px 0; color: var(--primary); font-weight: bold; border: 2px dashed #ddd; padding: 20px; border-radius: 15px; min-height: 100px; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .opt-btn { background: #f8f9fa; border: 2px solid #e0e0e0; padding: 15px; font-size: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border-bottom: 1px solid #eee; padding: 10px; font-size: 12px; text-align: center; }
+        .top-winner { background: #fff9c4; font-weight: bold; }
+        #stats-panel { display: flex; justify-content: space-around; background: #eee; padding: 10px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; }
+        #feedback { font-size: 16px; font-weight: bold; height: 35px; margin-bottom: 10px; }
+        .good { color: #27ae60; } .bad { color: #c0392b; }
+        .paragraph-view { text-align: left; background: #fffde7; padding: 15px; border-radius: 10px; border: 1px solid #fbc02d; font-size: 14px; line-height: 1.6; }
+        #custom-alert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; visibility: hidden; }
+        .alert-content { background: white; padding: 25px; border-radius: 15px; width: 300px; text-align: center; }
+        
+        /* සියලුම සිසුන් පෙන්වන විට පහසුව සඳහා ලීඩර්බෝඩ් එකට Scroll එකක් එක් කිරීම */
+        .leaderboard-wrapper { max-height: 400px; overflow-y: auto; border: 1px solid #eee; border-radius: 10px; margin-top: 10px; }
+    </style>
+</head>
+<body onload="initializeData()">
+
+<div id="custom-alert">
+    <div class="alert-content">
+        <h3 style="margin-top:0; color:#c0392b;">නිවේදනයයි</h3>
+        <p id="alert-msg" style="font-weight:bold;"></p>
+        <button class="action-btn" style="width:100%; padding:10px; background:var(--primary);" onclick="closeAlert()">OK</button>
+    </div>
+</div>
+
+<div class="container">
+    <div id="home-screen">
+        <h1 style="color: #2c3e50;">🏫 English School</h1>
+        <h3>100 Point Master Challenge</h3>
+        
+        <div class="tab-buttons">
+            <button class="tab-btn active" id="player-tab" onclick="switchTab('player')">ශිෂ්‍යයා</button>
+            <button class="tab-btn" id="admin-tab" onclick="switchTab('admin')">පරිපාලක</button>
+        </div>
+
+        <div id="player-form">
+            <div style="background: #fff3e0; padding: 12px; border-radius: 15px; text-align: left; margin-bottom: 15px; border-left: 5px solid #ff9800; font-size: 12px;">
+                <b>⚠️ අවධානයට:</b> ඔබ එක් වරක් ඇතුළු වූ පසු ඕනෑම හේතුවක් මත පිට වුවහොත් නැවත අවස්ථාවක් හිමි නොවේ!
+                <ul style="margin: 5px 0; padding-left: 20px;">
+                    <li>ප්‍රශ්න 100 කට විනාඩි 15 ක් ලැබේ.</li>
+                    <li>තිරයේ දිස්වන අකුර ස්වරයක් (Vowel) ද නැතිනම් ව්‍යාංජනයක් (Consonant) ද යන්න තෝරන්න. ලකුණු 50</li>
+                    <li>ක්‍රියා පද වල සිංහල අර්ථය තෝරන්න. ලකුණු 20</li>
+                    <li>මම ගැන වාක්‍යන්හි අඩු හිස් තැන් පුරවන්න. ලකුණු 30</li>
+                    <li>වැඩිහිටියන්ගෙන් සහය ගැනිමෙන් වලකින්න.</li>
+                </ul>
+            </div>
+            <input type="text" id="user-name" placeholder="නම (Name)">
+            <input type="text" id="user-phone" placeholder="දුරකථන අංකය (Phone)">
+            <button class="action-btn" onclick="strictLogin()">විභාගය අරඹන්න</button>
+        </div>
+
+        <div id="admin-panel" class="hidden">
+            <div id="admin-login-box">
+                <input type="password" id="admin-pass" placeholder="Admin Password">
+                <button class="action-btn" style="background: var(--admin);" onclick="verifyAdmin()">Login Dashboard</button>
+            </div>
+            <div id="admin-controls" class="hidden">
+                <h3 style="color:var(--admin)">Admin Panel</h3>
+                <button class="action-btn" style="background:#2c3e50; margin-bottom: 15px;" onclick="window.open('https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit', '_blank')">📊 View Data Sheet</button>
+                <h4 style="margin-top:15px;">Allowed Numbers (In Script)</h4>
+                <ul id="allowed-list-display" style="text-align:left; font-size:13px; max-height:150px; overflow-y:auto; background:#eee; padding:10px; border-radius:10px;"></ul>
+            </div>
+        </div>
+
+        <div id="public-leaderboard" style="margin-top: 20px;">
+            <h3>🏆 Leaderboard (All Students)</h3>
+            <div class="leaderboard-wrapper">
+                <table>
+                    <thead><tr style="background:#eee; position: sticky; top: 0;"><th>නම</th><th>ලකුණු</th><th>වෙලාව</th></tr></thead>
+                    <tbody id="public-score-list"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-screen" class="hidden">
+        <div id="timer">⏳ 15:00</div>
+        <div id="stats-panel">
+            <span id="score-display">Score: 0/100</span>
+            <span id="attempt-display">Q: 1/100</span>
+        </div>
+        <div id="lesson-indicator" style="color: #e67e22; font-weight: bold; font-size: 14px;">Part 1: Letters</div>
+        <div id="feedback"></div>
+        <div id="word-display"></div>
+        <div class="options" id="options-container"></div>
+    </div>
+
+    <div id="congrats-screen" class="hidden">
+        <h1 style="color: #27ae60;">🎉 විභාගය අවසන්!</h1>
+        <div id="final-paragraph-box" class="paragraph-view" style="margin-bottom: 15px;"></div>
+        <p id="final-msg" style="font-size: 18px; font-weight: bold;"></p>
+        <button class="action-btn" onclick="location.reload()">මුලට යන්න</button>
+    </div>
+</div>
+
+<script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbySMgqpt260tZ5Exm2ZEJEoJanPTgoSczzySPVJpEdrhweXs93efXnXwV7eMZ8FBQvT/exec"; 
+    const ADMIN_SECRET = "51001992";
+
+    const allowedNumbers = ["0761233325","0760903373","0762255334","0742780344", "0741435227", "0779810561", "0775140248", "0765578086", "0764483930", "0741247326", "0764678350", "0717199812", "0768519713", "5100", "0769071499", "0783887761", "0703534515"]; 
+
+    const VOWELS = ['A', 'E', 'I', 'O', 'U'];
+    const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    const VERBS = [{e: "Eat", s: "කනවා"}, {e: "Drink", s: "බොනවා"}, {e: "Run", s: "දුවනවා"}, {e: "Sleep", s: "නිදාගන්නවා"}, {e: "Read", s: "කියවනවා"}, {e: "Write", s: "ලියනවා"}, {e: "Jump", s: "පනිනවා"}, {e: "Walk", s: "ඇවිදිනවා"}, {e: "Sit", s: "ඉඳගන්නවා"}, {e: "Stand", s: "හිටගන්නවා"}, {e: "Play", s: "සෙල්ලම් කරනවා"}, {e: "Sing", s: "සින්දු කියනවා"}, {e: "Dance", s: "නටනවා"}, {e: "Cook", s: "උයනවා"}, {e: "Smile", s: "හිනාවෙනවා"}, {e: "Cry", s: "අඬනවා"}, {e: "Go", s: "යනවා"}, {e: "Come", s: "එනවා"}, {e: "Open", s: "අරිනවා"}, {e: "Close", s: "වහනවා"}];
+    const PARA_DATA = [{word: "is", clue: "My name ___ Anu."}, {word: "am", clue: "I ___ a student."}, {word: "years", clue: "I am ten ___ old."}, {word: "live", clue: "I ___ in Kandy."}, {word: "school", clue: "My ___ is English School."}, {word: "father", clue: "My ___ is a teacher."}, {word: "mother", clue: "My ___ is a nurse."}, {word: "have", clue: "I ___ one brother."}, {word: "like", clue: "I ___ to eat apples."}, {word: "hobby", clue: "My ___ is reading."}, {word: "favorite", clue: "Blue is my ___ color."}, {word: "want", clue: "I ___ to be a doctor."}, {word: "play", clue: "I ___ cricket every day."}, {word: "morning", clue: "I get up early in the ___."}, {word: "drink", clue: "I ___ milk for breakfast."}, {word: "love", clue: "I ___ my parents."}, {word: "kind", clue: "I am a ___ boy/girl."}, {word: "helpful", clue: "I am very ___ to others."}, {word: "clean", clue: "I keep my room ___."}, {word: "best", clue: "Nimal is my ___ friend."}, {word: "study", clue: "I ___ hard for exams."}, {word: "go", clue: "I ___ to school by bus."}, {word: "speak", clue: "I can ___ English well."}, {word: "listen", clue: "I ___ to music."}, {word: "happy", clue: "I am a ___ child."}, {word: "teacher", clue: "I respect my ___."}, {word: "dog", clue: "I have a pet ___."}, {word: "name", clue: "Its ___ is Tommy."}, {word: "every", clue: "I brush my teeth ___ day."}, {word: "thank", clue: "I ___ God for everything."}];
+
+    let score = 0, idx = 0, time = 900, timer, uName, uPhone, currentTarget;
+    let serverScores = [];
+
+    function myAlert(msg) { document.getElementById('alert-msg').innerText = msg; document.getElementById('custom-alert').style.visibility = 'visible'; }
+    function closeAlert() { document.getElementById('custom-alert').style.visibility = 'hidden'; }
+
+    function switchTab(t) { 
+        document.getElementById('player-form').classList.toggle('hidden', t==='admin');
+        document.getElementById('admin-panel').classList.toggle('hidden', t==='player');
+        document.getElementById('public-leaderboard').classList.toggle('hidden', t==='admin');
+        document.getElementById('player-tab').classList.toggle('active', t==='player');
+        document.getElementById('admin-tab').classList.toggle('active', t==='admin');
+    }
+
+    async function initializeData() {
+        try {
+            const r = await fetch(API_URL);
+            const data = await r.json();
+            serverScores = data.scores || [];
+            renderLeaderboard(serverScores);
+        } catch(e) { console.log("Load failed"); }
+    }
+
+    function verifyAdmin() {
+        const pass = document.getElementById('admin-pass').value;
+        if(pass === ADMIN_SECRET) {
+            document.getElementById('admin-login-box').classList.add('hidden');
+            document.getElementById('admin-controls').classList.remove('hidden');
+            document.getElementById('allowed-list-display').innerHTML = allowedNumbers.map(n => `<li>${n}</li>`).join("");
+        } else {
+            alert("වැරදි මුද්‍රා පදයකි!");
+        }
+    }
+
+    async function strictLogin() {
+        uName = document.getElementById('user-name').value.trim();
+        uPhone = document.getElementById('user-phone').value.trim();
+        if(!uName || !uPhone) return myAlert("කරුණාකර නම සහ අංකය ඇතුළත් කරන්න.");
+        if(!allowedNumbers.includes(uPhone)) return myAlert("මෙම දුරකථන අංකය ලියාපදිංචි කර නැත.");
+
+        const localBlocked = localStorage.getItem("blocked_" + uPhone);
+        const serverBlocked = serverScores.some(s => String(s.phone).trim() === uPhone);
+        if(localBlocked || serverBlocked) return myAlert("ඔබ දැනටමත් විභාගයට ඇතුළු වී ඇත.");
+
+        localStorage.setItem("blocked_" + uPhone, "true");
+        document.getElementById('home-screen').classList.add('hidden');
+        document.getElementById('game-screen').classList.remove('hidden');
+        startGame();
+    }
+
+    function startGame() {
+        timer = setInterval(() => {
+            time--;
+            let m=Math.floor(time/60), s=time%60;
+            document.getElementById('timer').innerText = `⏳ ${m}:${s<10?'0':''}${s}`;
+            if(time<=0) endGame();
+        }, 1000);
+        next();
+    }
+
+    function next() {
+        if(idx >= 100) return endGame();
+        const container = document.getElementById('options-container');
+        const display = document.getElementById('word-display');
+        document.getElementById('feedback').innerText = ""; container.innerHTML = ""; 
+
+        if(idx < 50) {
+            currentTarget = ALPHABET[Math.floor(Math.random()*ALPHABET.length)];
+            display.innerText = currentTarget;
+            container.appendChild(createBtn("VOWEL", () => check(VOWELS.includes(currentTarget))));
+            container.appendChild(createBtn("CONSONANT", () => check(!VOWELS.includes(currentTarget))));
+        } else if(idx < 70) {
+            document.getElementById('lesson-indicator').innerText = "Part 2: Meanings";
+            currentTarget = VERBS[idx-50];
+            display.innerText = currentTarget.e;
+            let opts = shuffle([currentTarget.s, "කනවා", "යනවා", "බොනවා"]).slice(0,4);
+            if(!opts.includes(currentTarget.s)) opts[0] = currentTarget.s;
+            shuffle(opts).forEach(o => container.appendChild(createBtn(o, () => check(o===currentTarget.s))));
+        } else {
+            document.getElementById('lesson-indicator').innerText = "Part 3: My Self";
+            currentTarget = PARA_DATA[idx-70];
+            display.innerText = currentTarget.clue; display.style.fontSize = "18px";
+            let opts = shuffle([currentTarget.word, "are", "is", "have"]);
+            if(!opts.includes(currentTarget.word)) opts[0] = currentTarget.word;
+            shuffle(opts).forEach(o => container.appendChild(createBtn(o, () => check(o===currentTarget.word))));
+        }
+    }
+
+    function createBtn(t, fn) { const b = document.createElement('button'); b.className="opt-btn"; b.innerText=t; b.onclick=fn; return b; }
+    function check(isCorrect) {
+        if(isCorrect) { score++; document.getElementById('feedback').innerHTML = "<span class='good'>✅ Correct!</span>"; }
+        else { document.getElementById('feedback').innerHTML = "<span class='bad'>❌ Wrong!</span>"; }
+        document.getElementById('score-display').innerText = `Score: ${score}/100`;
+        document.getElementById('attempt-display').innerText = `Q: ${idx+1}/100`;
+        idx++; setTimeout(next, 400);
+    }
+    function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
+
+    async function endGame() {
+        clearInterval(timer);
+        document.getElementById('game-screen').innerHTML = "<h2>Saving...</h2>";
+        const dateStr = new Date().toLocaleString('en-GB');
+        try {
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: "saveScore", data: { name: uName, phone: uPhone, score: score, date: dateStr } }) });
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('congrats-screen').classList.remove('hidden');
+            document.getElementById('final-msg').innerText = `${uName}, ලකුණු: ${score}/100`;
+            document.getElementById('final-paragraph-box').innerHTML = PARA_DATA.map(i => i.clue.replace("___", `<b style='color:green'>${i.word}</b>`)).join(" ");
+        } catch(e) { location.reload(); }
+    }
+
+    function renderLeaderboard(data) {
+        data.sort((a,b) => (b.score - a.score) || (new Date(a.date) - new Date(b.date)));
+        document.getElementById('public-score-list').innerHTML = data.map((s, index) => {
+            let gift = ""; let rowClass = "";
+            if(index === 0) { gift = "🥇 🎁"; rowClass = "top-winner"; }
+            else if(index === 1) { gift = "🥈"; }
+            else if(index === 2) { gift = "🥉"; }
+            return `<tr class="${rowClass}"><td>${gift} ${s.name}</td><td>${s.score}</td><td style='font-size:10px;'>${s.date.split(',')[1] || s.date}</td></tr>`;
+        }).join("");
+    }
+</script>
+</body>
+</html>
