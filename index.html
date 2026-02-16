@@ -3,113 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anu's English School - Days & Months Challenge</title>
+    <title>Anu's English School - Plural Master</title>
     <style>
-        :root { 
-            --primary: #2980b9; 
-            --secondary: #27ae60; 
-            --admin: #c0392b; 
-            --bg-gradient: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-        }
-
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-gradient);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0; 
-            padding: 15px;
-            box-sizing: border-box;
-            color: #333;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .container { 
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
-            width: 100%; 
-            max-width: 500px; 
-            padding: 25px; 
-            border-radius: 24px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
-            text-align: center; 
-            box-sizing: border-box;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        .chat-wrapper {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            background: white;
-            margin-bottom: 20px;
-        }
-
-        iframe { width: 100%; border: none; display: block; }
-
+        :root { --primary: #2980b9; --secondary: #27ae60; --admin: #c0392b; --bg: #f4f7f6; --gold: #fff9c4; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: white; width: 95%; max-width: 600px; padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; }
         .tab-buttons { display: flex; justify-content: center; margin-bottom: 25px; gap: 10px; }
-        .tab-btn { flex: 1; padding: 12px; border: none; background: #e0e0e0; cursor: pointer; border-radius: 12px; font-weight: bold; transition: 0.3s; }
-        .tab-btn.active { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(41, 128, 185, 0.3); }
-
-        input { box-sizing: border-box; padding: 15px; width: 100%; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; font-size: 16px; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--primary); }
-
-        button.action-btn { padding: 16px; background: var(--secondary); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; margin-top: 15px; transition: 0.3s; box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3); }
-        button.action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4); }
-
+        .tab-btn { flex: 1; padding: 12px; border: none; background: #dcdde1; cursor: pointer; border-radius: 10px; font-weight: bold; }
+        .tab-btn.active { background: var(--primary); color: white; }
+        input { padding: 15px; width: 85%; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; font-size: 16px; outline: none; }
+        button.action-btn { padding: 15px; background: var(--secondary); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: bold; width: 90%; margin-top: 15px; }
         .hidden { display: none; }
-        #timer { font-size: 28px; color: #d35400; font-weight: 800; margin: 15px 0; font-family: 'Courier New', Courier, monospace; }
-        
-        #word-display { 
-            font-size: 32px; margin: 20px 0; color: var(--primary); font-weight: bold; 
-            background: #f8f9fa; border: 2px dashed #cbd5e0; padding: 30px 10px; 
-            border-radius: 18px; min-height: 120px; display: flex; flex-direction: column; 
-            align-items: center; justify-content: center;
-        }
-
-        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .opt-btn { background: white; border: 2px solid #edf2f7; padding: 15px; font-size: 17px; border-radius: 15px; cursor: pointer; font-weight: 600; transition: 0.2s; }
-        .opt-btn:hover { background: #f1f5f9; border-color: var(--primary); }
-
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border-bottom: 1px solid #eee; padding: 12px 8px; font-size: 12px; text-align: center; }
-        
-        #stats-panel { display: flex; justify-content: space-around; background: #f1f5f9; padding: 12px; border-radius: 12px; margin-bottom: 15px; font-weight: bold; font-size: 14px; }
-        #feedback { font-size: 18px; font-weight: bold; height: 35px; margin-bottom: 10px; }
-        .good { color: #27ae60; } .bad { color: #c0392b; }
-
-        #custom-alert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; visibility: hidden; }
-        .alert-content { background: white; padding: 30px; border-radius: 20px; width: 85%; max-width: 320px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-
-        .leaderboard-wrapper { max-height: 300px; overflow-y: auto; border: 1px solid #edf2f7; border-radius: 12px; margin-top: 10px; background: white; }
+        #timer { font-size: 26px; color: #e67e22; font-weight: bold; margin: 15px 0; }
+        #word-display { font-size: 32px; letter-spacing: 5px; margin: 20px 0; color: var(--primary); font-family: 'Courier New', monospace; font-weight: bold; border: 2px dashed #ddd; padding: 15px; border-radius: 15px; }
+        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .opt-btn { background: #f8f9fa; border: 2px solid #e0e0e0; padding: 20px; font-size: 22px; border-radius: 15px; cursor: pointer; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
+        th, td { border-bottom: 1px solid #eee; padding: 12px; font-size: 13px; text-align: center; }
+        th { background: #f8f9fa; color: #333; }
+        #stats-panel { display: flex; flex-direction: column; background: #eee; padding: 10px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; gap: 5px; }
+        .stats-row { display: flex; justify-content: space-around; }
+        .instruction-box { background: #fff8e1; padding: 15px; border-radius: 15px; text-align: left; margin-bottom: 20px; border-left: 5px solid #ffc107; font-size: 14px; }
+        .fill-input { width: 80px; padding: 5px; border: 2px solid var(--primary); border-radius: 5px; text-align: center; font-weight: bold; font-size: 16px; }
+        #custom-alert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; visibility: hidden; }
+        .alert-content { background: white; padding: 25px; border-radius: 15px; width: 300px; text-align: center; }
+        .alert-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; margin-top: 15px; cursor: pointer; }
+        .winner-row { background: #fff9c4 !important; font-weight: bold; }
     </style>
 </head>
-<body onload="initializeData()">
+<body onload="loadPublicLeaderboard()">
 
 <div id="custom-alert">
     <div class="alert-content">
-        <h3 style="margin-top:0; color:#c0392b;">නිවේදනයයි</h3>
-        <p id="alert-msg" style="font-weight:bold; line-height:1.5;"></p>
-        <button class="action-btn" style="width:100%; padding:12px; background:var(--primary);" onclick="closeAlert()">තේරුණා (OK)</button>
+        <p id="alert-msg"></p>
+        <button class="alert-btn" onclick="closeAlert()">OK</button>
     </div>
 </div>
 
 <div class="container">
     <div id="home-screen">
-        <h1 style="color: #2c3e50; font-size: 26px; margin-bottom:5px;">🏫 Anu's English School</h1>
-        <p style="margin-top:0; color:#7f8c8d; font-weight:600;">Days & Months Master Challenge</p>
+        <h1 style="color: #2c3e50; margin-bottom: 5px;">🏫 Anu's English School</h1>
+        <h3 style="color: #2980b9; margin-top: 0;">Plural Nouns Master</h3>
         
         <div class="tab-buttons">
             <button class="tab-btn active" id="player-tab" onclick="switchTab('player')">ශිෂ්‍යයා</button>
@@ -117,223 +51,199 @@
         </div>
 
         <div id="player-form">
-            <div style="background: #fff9db; padding: 15px; border-radius: 15px; text-align: left; margin-bottom: 20px; border-left: 5px solid #fcc419; font-size: 12px;">
-                <b>📝 විභාග නීති රීති:</b>
-                <ul style="margin: 8px 0; padding-left: 18px; line-height:1.6;">
-                    <li>ප්‍රශ්න 100 ක් සඳහා කාලය විනාඩි 15 කි.</li>
-                    <li>එක් අයෙකුට අවස්ථාව හිමිවන්නේ <b>එක් වරක්</b> පමණි.</li>
-                    <li>විභාගය අතරතුර පිටවීම හෝ refresh කිරීම කළහොත් ඔබව block වනු ඇත.</li>
+            <div class="instruction-box">
+                <h4>📝 විභාග උපදෙස්:</h4>
+                <ul style="padding-left: 20px;">
+                    <li>ප්‍රශ්න 100 (MCQ 75 + Paragraph 25).</li>
+                    <li>කාලය විනාඩි 30 කි.</li>
+                    <li><b>එක් අයෙකුට ඇතුළත් කළ හැකි උපරිම වාර ගණන: 05.</b></li>
                 </ul>
             </div>
-            <input type="text" id="user-name" placeholder="ඔබේ නම (Full Name)">
-            <input type="tel" id="user-phone" placeholder="දුරකථන අංකය (Phone Number)">
-            <button class="action-btn" onclick="strictLogin()">විභාගය අරඹන්න</button>
+            <input type="text" id="user-name" placeholder="ඔබේ සම්පූර්ණ නම">
+            <input type="text" id="user-phone" placeholder="ලියාපදිංචි දුරකථන අංකය">
+            <button class="action-btn" onclick="strictLogin()">විභාගය ආරම්භ කරන්න</button>
         </div>
 
-        <div id="admin-panel" class="hidden">
-            <input type="password" id="admin-pass" placeholder="පරිපාලක මුරපදය">
-            <button class="action-btn" style="background: var(--admin);" onclick="verifyAdmin()">Dashboard එකට යන්න</button>
+        <div id="admin-form" class="hidden">
+            <input type="password" id="admin-pass" placeholder="Admin Password">
+            <button class="action-btn" style="background: var(--admin);" onclick="loginAdmin()">Dashboard එකට පිවිසෙන්න</button>
         </div>
 
-        <div id="public-leaderboard" style="margin-top: 25px;">
-            <h3 style="font-size:18px;">🏆 ප්‍රමුඛස්ථාන (Leaderboard)</h3>
-            <div class="leaderboard-wrapper">
-                <table>
-                    <thead><tr style="background:#f8f9fa;"><th>ස්ථානය</th><th>නම</th><th>ලකුණු</th><th>දිනය / වේලාව</th></tr></thead>
-                    <tbody id="public-score-list"></tbody>
-                </table>
-            </div>
+        <div style="margin-top: 25px; max-height: 400px; overflow-y: auto;">
+            <h3 style="color: #2c3e50;">🏆 සියලුම ප්‍රතිඵල (Leaderboard)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>නම</th>
+                        <th>ලකුණු</th>
+                        <th>දිනය/වේලාව</th>
+                    </tr>
+                </thead>
+                <tbody id="public-score-list"></tbody>
+            </table>
         </div>
     </div>
 
     <div id="game-screen" class="hidden">
-        <div id="timer">⏳ 15:00</div>
+        <div id="timer">⏳ 30:00</div>
         <div id="stats-panel">
-            <span id="score-display">Score: 0/100</span>
-            <span id="attempt-display">Q: 1/100</span>
+            <div class="stats-row">
+                <span id="score-display">Score: 0/100</span>
+                <span id="attempt-display">Question: 1/100</span>
+            </div>
         </div>
-        <div id="feedback"></div>
-        <div id="word-display"></div>
-        <div class="options" id="options-container"></div>
+        <div id="feedback" style="height: 30px; font-weight: bold;"></div>
+        <div id="quiz-area">
+            <div id="singular-hint" style="color:#666; font-size:14px;">Make this Plural:</div>
+            <div id="word-display">____</div>
+            <div class="options" id="options-container"></div>
+        </div>
+        <div id="paragraph-area" class="hidden">
+            <div id="para-content" style="text-align: left; line-height: 2; background: #fff; padding: 15px; border-radius: 10px; border: 1px solid #ddd;"></div>
+            <button class="action-btn" onclick="checkParaAnswer()">පිළිතුරු ඇතුළත් කරන්න</button>
+        </div>
     </div>
 
     <div id="congrats-screen" class="hidden">
-        <div style="font-size: 50px;">🎊</div>
-        <h1 style="color: #27ae60; margin-top:0;">විභාගය අවසන්!</h1>
-        <p id="final-msg" style="font-size: 19px; font-weight: bold; background:#f1f5f9; padding:20px; border-radius:15px;"></p>
-        <button class="action-btn" onclick="location.reload()">මුලට යන්න</button>
+        <div style="padding: 30px; border-radius: 20px; background: #f0fff4; border: 2px solid #27ae60;">
+            <h1 style="color: #27ae60;">ප්‍රතිඵල සටහන් විය!</h1>
+            <p id="final-msg" style="font-size: 20px; font-weight: bold;"></p>
+            <button class="action-btn" onclick="location.reload()">මුලට යන්න</button>
+        </div>
     </div>
 </div>
 
 <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyQra2fdYX6U1M0rXbu8mbCHmIYNGui3koOcj_UKMwLQNfL1QmURZjgs7iCYU1uiwJR/exec"; 
-    const ADMIN_SECRET = "51001992";
+    // ⚠️ ඔබේ Google Apps Script URL එක මෙතනට දාන්න
+    const API_URL = "https://script.google.com/macros/s/AKfycbwczGQp0Yioq3cYD_FMGAzOh_A00-1q5GRrfdoNccimToRlK3y5T8sd5GzpfX3keY-W/exec"; 
     
-    // මීට පෙර තිබූ allowedNumbers සීමාව ඉවත් කරන ලදි. දැන් ඕනෑම කෙනෙකුට ලොග් විය හැක.
+    const ADMIN_PASS = "51001992";
+    let ALLOWED_NUMS = ["0742780344", "0741435227", "0779810561", "077514248", "0765578086", "0760903373", "0764483930", "0741247326", "0764678350", "0717199812", "0768519713", "833553", "0769071499", "0783887761", "0703534515", "86", "87", "88", "89", "90", "91", "92", "93"];
+    
+    let score = 0, idx = 0, time = 1800, uName, uPhone, timer, isGameActive = false, allScores = [], startTime;
 
-    const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    
-    const VOCAB = [
-        {e: "Monday", s: "සඳුදා"}, {e: "Tuesday", s: "අඟහරුවාදා"}, {e: "Wednesday", s: "බදාදා"},
-        {e: "Thursday", s: "බ්‍රහස්පතින්දා"}, {e: "Friday", s: "සිකුරාදා"}, {e: "Saturday", s: "සෙනසුරාදා"},
-        {e: "Sunday", s: "ඉරිදා"}, {e: "January", s: "ජනවාරි"}, {e: "February", s: "පෙබරවාරි"},
-        {e: "March", s: "මාර්තු"}, {e: "April", s: "අප්‍රේල්"}, {e: "May", s: "මැයි"},
-        {e: "June", s: "ජූනි"}, {e: "July", s: "ජූලි"}, {e: "August", s: "අගෝස්තු"},
-        {e: "September", s: "සැප්තැම්බර්"}, {e: "October", s: "ඔක්තෝබර්"}, {e: "November", s: "නොවැම්බර්"},
-        {e: "December", s: "දෙසැම්බර්"}
+    // ප්‍රශ්න 75ක් (Sample)
+    const QUESTIONS = [
+        {s: "BOOK", p: "BOOKS", suf: "S"}, {s: "CAT", p: "CATS", suf: "S"}, {s: "DOG", p: "DOGS", suf: "S"}, {s: "PEN", p: "PENS", suf: "S"}, {s: "CUP", p: "CUPS", suf: "S"}, {s: "TREE", p: "TREES", suf: "S"}, {s: "CAR", p: "CARS", suf: "S"}, {s: "BIRD", p: "BIRDS", suf: "S"}, {s: "DOOR", p: "DOORS", suf: "S"}, {s: "FAN", p: "FANS", suf: "S"}, {s: "BAG", p: "BAGS", suf: "S"}, {s: "DESK", p: "DESKS", suf: "S"}, {s: "PHONE", p: "PHONES", suf: "S"}, {s: "SCHOOL", p: "SCHOOLS", suf: "S"}, {s: "PLAYER", p: "PLAYERS", suf: "S"}, {s: "SHOE", p: "SHOES", suf: "S"}, {s: "BALL", p: "BALLS", suf: "S"}, {s: "APPLE", p: "APPLES", suf: "S"}, {s: "BOTTLE", p: "BOTTLES", suf: "S"}, {s: "CHAIR", p: "CHAIRS", suf: "S"}, {s: "MAP", p: "MAPS", suf: "S"}, {s: "LAMP", p: "LAMPS", suf: "S"}, {s: "WALL", p: "WALLS", suf: "S"}, {s: "CLOCK", p: "CLOCKS", suf: "S"}, {s: "RING", p: "RINGS", suf: "S"},
+        {s: "BUS", p: "BUSES", suf: "ES"}, {s: "BOX", p: "BOXES", suf: "ES"}, {s: "WATCH", p: "WATCHES", suf: "ES"}, {s: "DISH", p: "DISHES", suf: "ES"}, {s: "FOX", p: "FOXES", suf: "ES"}, {s: "GLASS", p: "GLASSES", suf: "ES"}, {s: "DRESS", p: "DRESSES", suf: "ES"}, {s: "BRUSH", p: "BRUSHES", suf: "ES"}, {s: "BENCH", p: "BENCHES", suf: "ES"}, {s: "CHURCH", p: "CHURCHES", suf: "ES"}, {s: "TAX", p: "TAXES", suf: "ES"}, {s: "MATCH", p: "MATCHES", suf: "ES"}, {s: "WISH", p: "WISHES", suf: "ES"}, {s: "CLASS", p: "CLASSES", suf: "ES"}, {s: "TORCH", p: "TORCHES", suf: "ES"}, {s: "COACH", p: "COACHES", suf: "ES"}, {s: "BRANCH", p: "BRANCHES", suf: "ES"}, {s: "FLASH", p: "FLASHES", suf: "ES"}, {s: "BOSS", p: "BOSSES", suf: "ES"}, {s: "SANDWICH", p: "SANDWICHES", suf: "ES"}, {s: "BUSH", p: "BUSHES", suf: "ES"}, {s: "AX", p: "AXES", suf: "ES"}, {s: "PEACH", p: "PEACHES", suf: "ES"}, {s: "QUIZ", p: "QUIZZES", suf: "ES"}, {s: "GAS", p: "GASES", suf: "ES"},
+        {s: "BABY", p: "BABIES", suf: "IES"}, {s: "CITY", p: "CITIES", suf: "IES"}, {s: "FLY", p: "FLIES", suf: "IES"}, {s: "LADY", p: "LADIES", suf: "IES"}, {s: "STORY", p: "STORIES", suf: "IES"}, {s: "PUPPY", p: "PUPPIES", suf: "IES"}, {s: "CANDY", p: "CANDIES", suf: "IES"}, {s: "PARTY", p: "PARTIES", suf: "IES"}, {s: "COUNTRY", p: "COUNTRIES", suf: "IES"}, {s: "FAMILY", p: "FAMILIES", suf: "IES"}, {s: "SKY", p: "SKIES", suf: "IES"}, {s: "ARMY", p: "ARMIES", suf: "IES"}, {s: "BOY", p: "BOYS", suf: "S"}, {s: "TOY", p: "TOYS", suf: "S"}, {s: "DAY", p: "DAYS", suf: "S"}, {s: "KEY", p: "KEYS", suf: "S"}, {s: "PLAY", p: "PLAYS", suf: "S"}, {s: "TRAY", p: "TRAYS", suf: "S"}, {s: "MONKEY", p: "MONKEYS", suf: "S"}, {s: "DONKEY", p: "DONKEYS", suf: "S"}, {s: "GUY", p: "GUYS", suf: "S"}, {s: "VALLEY", p: "VALLEYS", suf: "S"}, {s: "RAY", p: "RAYS", suf: "S"}, {s: "HOLIDAY", p: "HOLIDAYS", suf: "S"}, {s: "WAY", p: "WAYS", suf: "S"}
     ];
+    const PARA_ANSWERS = ["monkeys", "donkeys", "boys", "toys", "trays", "candies", "cherries", "cities", "countries", "parties", "boxes", "glasses", "dishes", "buses", "ways", "ladies", "dresses", "babies", "keys", "trees", "foxes", "watches", "days", "skies", "families"];
 
-    let score = 0, idx = 0, time = 900, timer, uName, uPhone, currentCorrect;
-    let serverScores = [];
-
-    function myAlert(msg) { document.getElementById('alert-msg').innerText = msg; document.getElementById('custom-alert').style.visibility = 'visible'; }
-    function closeAlert() { document.getElementById('custom-alert').style.visibility = 'hidden'; }
-
-    function switchTab(t) { 
-        document.getElementById('player-form').classList.toggle('hidden', t==='admin');
-        document.getElementById('admin-panel').classList.toggle('hidden', t==='player');
-        document.getElementById('public-leaderboard').classList.toggle('hidden', t==='admin');
-        document.getElementById('player-tab').classList.toggle('active', t==='player');
-        document.getElementById('admin-tab').classList.toggle('active', t==='admin');
-    }
-
-    async function initializeData() {
-        if(localStorage.getItem('anu_exam_status') === 'blocked') {
-            document.getElementById('player-form').innerHTML = "<h3 style='color:red;'>සමාවන්න! ඔබ දැනටමත් මෙම විභාගයට සහභාගී වී ඇත.</h3>";
-        }
-
+    async function loadPublicLeaderboard() {
         try {
-            const r = await fetch(API_URL);
-            const data = await r.json();
-            serverScores = data.scores || [];
-            renderLeaderboard(serverScores);
-        } catch(e) { console.log("Leaderboard loading error."); }
+            const res = await fetch(API_URL);
+            allScores = await res.json();
+            allScores.sort((a,b) => b.score - a.score);
+            const list = document.getElementById('public-score-list');
+            list.innerHTML = allScores.map((s, index) => {
+                let isTop = (index === 0 && s.score > 0);
+                return `<tr class="${isTop ? 'winner-row' : ''}">
+                    <td>${index + 1}</td>
+                    <td>${s.name}</td>
+                    <td>${s.score}</td>
+                    <td style="font-size:10px;">${s.date}</td>
+                </tr>`;
+            }).join("");
+        } catch(e) { console.log("දත්ත ලබා ගැනීමට නොහැක."); }
     }
 
     async function strictLogin() {
-        // කාලය පරීක්ෂාව
-        const startTime = new Date("2026-02-09T19:00:00");
-        const now = new Date();
-        if (now < startTime) {
-            return myAlert("මෙම විභාගය ආරම්භ වන්නේ 02/09 රාත්‍රී 7.00 ට ය.");
-        }
-
         uName = document.getElementById('user-name').value.trim();
         uPhone = document.getElementById('user-phone').value.trim();
-        
-        if(!uName || !uPhone) return myAlert("කරුණාකර නම සහ අංකය ඇතුළත් කරන්න.");
-        
-        // කලින් විභාගය කර ඇතිදැයි පරීක්ෂා කිරීම (Database එකේ Phone number එක තිබේදැයි බලයි)
-        const alreadyDone = serverScores.some(s => String(s.phone).trim() === uPhone);
-        if(alreadyDone || localStorage.getItem('anu_exam_status') === 'blocked') {
-            localStorage.setItem('anu_exam_status', 'blocked');
-            return myAlert("සමාවන්න, මෙම දුරකථන අංකය මගින් දැනටමත් විභාගය අවසන් කර ඇත.");
-        }
+        if(!uName || !uPhone) return myAlert("කරුණාකර නම සහ දුරකථන අංකය ඇතුළත් කරන්න.");
+        if(!ALLOWED_NUMS.includes(uPhone)) return myAlert("ඔබගේ දුරකථන අංකය ලියාපදිංචි වී නොමැත.");
 
-        // වහාම block කිරීම (Refresh වැළැක්වීමට)
-        localStorage.setItem('anu_exam_status', 'blocked');
+        // වාර 5 පරීක්ෂාව
+        let attempts = allScores.filter(s => String(s.phone) === String(uPhone)).length;
+        if(attempts >= 5) return myAlert("ඔබ මෙම විභාගයට පෙනී සිටිය හැකි උපරිම වාර 5ම (Attempts) සම්පූර්ණ කර ඇත.");
 
+        startTime = new Date().toLocaleString('en-GB');
+        isGameActive = true;
         document.getElementById('home-screen').classList.add('hidden');
         document.getElementById('game-screen').classList.remove('hidden');
-        startGame();
-    }
-
-    function startGame() {
+        
         timer = setInterval(() => {
             time--;
-            let m=Math.floor(time/60), s=time%60;
+            let m = Math.floor(time/60), s = time%60;
             document.getElementById('timer').innerText = `⏳ ${m}:${s<10?'0':''}${s}`;
-            if(time<=0) endGame();
+            if(time <= 0) endGame();
         }, 1000);
         next();
     }
 
-    function next() {
-        if(idx >= 100) return endGame();
-        const container = document.getElementById('options-container');
-        const display = document.getElementById('word-display');
-        document.getElementById('feedback').innerText = ""; container.innerHTML = ""; 
-
-        if(idx < 30) {
-            let obj = VOCAB[Math.floor(Math.random() * VOCAB.length)];
-            let word = obj.e.toUpperCase();
-            let randIdx = Math.floor(Math.random() * (word.length - 1)) + 1;
-            currentCorrect = word[randIdx];
-            let masked = word.split(""); masked[randIdx] = "_";
-            display.innerHTML = `<div style='letter-spacing:10px;'>${masked.join("")}</div><div style='font-size:16px; color:#7f8c8d; margin-top:10px;'>(${obj.s})</div>`;
-            let opts = shuffle([currentCorrect, ...shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ".replace(currentCorrect,"").split("")).slice(0,3)]);
-            opts.forEach(o => container.appendChild(createBtn(o, () => check(o === currentCorrect))));
-        } else {
-            let q = generateLogicQuestion();
-            display.innerHTML = `<div style='font-size:22px;'>${q.question}</div>`;
-            currentCorrect = q.answer;
-            let opts = shuffle([q.answer, ...q.wrong]);
-            opts.forEach(o => container.appendChild(createBtn(o, () => check(o === currentCorrect))));
-        }
-    }
-
-    function generateLogicQuestion() {
-        let type = Math.floor(Math.random() * 5);
-        let list = Math.random() > 0.5 ? DAYS : MONTHS;
-        if (type === 0) {
-            let rIdx = Math.floor(Math.random() * (list.length - 1));
-            return { question: `What comes <b>AFTER</b> ${list[rIdx]}?`, answer: list[rIdx + 1], wrong: shuffle(list.filter(i => i !== list[rIdx+1])).slice(0, 3) };
-        } else if (type === 1) {
-            let rIdx = Math.floor(Math.random() * (list.length - 1)) + 1;
-            return { question: `What comes <b>BEFORE</b> ${list[rIdx]}?`, answer: list[rIdx - 1], wrong: shuffle(list.filter(i => i !== list[rIdx-1])).slice(0, 3) };
-        } else if (type === 2) {
-            let isFirst = Math.random() > 0.5;
-            let ans = isFirst ? (list === DAYS ? "Monday" : "January") : (list === DAYS ? "Sunday" : "December");
-            let q = `The <b>${isFirst ? 'FIRST' : 'LAST'}</b> ${list === DAYS ? 'day of the week' : 'month of the year'} is?`;
-            return { question: q, answer: ans, wrong: shuffle(list.filter(i => i !== ans)).slice(0, 3) };
-        } else if (type === 3) {
-            let rIdx = Math.floor(Math.random() * (list.length - 2));
-            return { question: `What is <b>BETWEEN</b> ${list[rIdx]} and ${list[rIdx+2]}?`, answer: list[rIdx+1], wrong: shuffle(list.filter(i => i !== list[rIdx+1])).slice(0, 3) };
-        } else {
-            return { question: "The <b>MIDDLE</b> day of the week is?", answer: "Thursday", wrong: ["Monday", "Saturday", "Sunday"] };
-        }
-    }
-
-    function createBtn(t, fn) { const b = document.createElement('button'); b.className="opt-btn"; b.innerText=t; b.onclick=fn; return b; }
-    
-    function check(isCorrect) {
-        if(isCorrect) { score++; document.getElementById('feedback').innerHTML = "<span class='good'>✅ Correct!</span>"; }
-        else { document.getElementById('feedback').innerHTML = "<span class='bad'>❌ Wrong!</span>"; }
-        document.getElementById('score-display').innerText = `Score: ${score}/100`;
-        document.getElementById('attempt-display').innerText = `Q: ${idx+1}/100`;
-        idx++; setTimeout(next, 350);
-    }
-
-    function shuffle(a) { return [...a].sort(() => Math.random() - 0.5); }
-
-    async function endGame() {
-        clearInterval(timer);
-        document.getElementById('game-screen').innerHTML = "<h2>ලකුණු සුරැකෙමින් පවතී...</h2>";
-        const dateStr = new Date().toLocaleString('en-GB', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit' });
+    async function saveScore() {
+        if(!isGameActive) return;
+        const payload = { "name": uName, "phone": uPhone, "score": score, "date": startTime };
         try {
             await fetch(API_URL, { 
                 method: 'POST', 
-                mode: 'no-cors',
-                body: JSON.stringify({ action: "saveScore", data: { name: uName, phone: uPhone, score: score, date: dateStr } }) 
+                mode: 'no-cors', 
+                cache: 'no-cache',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload) 
             });
-            document.getElementById('game-screen').classList.add('hidden');
-            document.getElementById('congrats-screen').classList.remove('hidden');
-            document.getElementById('final-msg').innerText = `${uName},\nඔබේ ලකුණු සංඛ්‍යාව: ${score}/100`;
-        } catch(e) { location.reload(); }
+        } catch(e) { console.error("Score එක Save වුණේ නැහැ."); }
     }
 
-    function renderLeaderboard(data) {
-        data.sort((a,b) => (b.score - a.score));
-        document.getElementById('public-score-list').innerHTML = data.slice(0, 20).map((s, index) => {
-            let medal = index === 0 ? "🥇" : (index === 1 ? "🥈" : (index === 2 ? "🥉" : index + 1));
-            return `<tr>
-                <td><b>${medal}</b></td>
-                <td style="text-align:left;">${s.name}</td>
-                <td style="color:var(--primary); font-weight:bold;">${s.score}</td>
-                <td style="font-size:10px; color:gray;">${s.date}</td>
-            </tr>`;
-        }).join("");
+    async function endGame() {
+        clearInterval(timer);
+        await saveScore();
+        isGameActive = false;
+        document.getElementById('game-screen').classList.add('hidden');
+        document.getElementById('congrats-screen').classList.remove('hidden');
+        document.getElementById('final-msg').innerText = `${uName}, ඔබ ලබාගත් ලකුණු ප්‍රමාණය: ${score}/100`;
+    }
+
+    function next() {
+        if(idx >= 75) return startParagraph();
+        document.getElementById('feedback').innerText = "";
+        document.getElementById('attempt-display').innerText = `Question: ${idx + 1}/100`;
+        let q = QUESTIONS[idx];
+        document.getElementById('word-display').innerText = q.p.replace(q.suf, "____");
+        document.getElementById('singular-hint').innerText = `Singular: ${q.s}`;
+        
+        let opts = ["S", "ES", "IES", "VES"].sort(() => Math.random() - 0.5);
+        const cont = document.getElementById('options-container');
+        cont.innerHTML = "";
+        opts.forEach(o => {
+            let b = document.createElement('button');
+            b.className = "opt-btn"; b.innerText = o;
+            b.onclick = () => {
+                if(o === q.suf) { score++; document.getElementById('feedback').innerHTML = "<span style='color:green'>සහමුලින්ම නිවැරදියි!</span>"; }
+                else { document.getElementById('feedback').innerHTML = "<span style='color:red'>වැරදියි!</span>"; }
+                document.getElementById('score-display').innerText = `Score: ${score}/100`;
+                idx++; setTimeout(next, 400);
+            };
+            cont.appendChild(b);
+        });
+    }
+
+    function startParagraph() {
+        document.getElementById('quiz-area').classList.add('hidden');
+        document.getElementById('paragraph-area').classList.remove('hidden');
+        let pText = `In the park, some <input id='p0' class='fill-input' placeholder='monkey'> and <input id='p1' class='fill-input' placeholder='donkey'> were playing. Small <input id='p2' class='fill-input' placeholder='boy'> had many <input id='p3' class='fill-input' placeholder='toy'>. On the <input id='p4' class='fill-input' placeholder='tray'>, there were sweet <input id='p5' class='fill-input' placeholder='candy'> and <input id='p6' class='fill-input' placeholder='cherry'>. People from different <input id='p7' class='fill-input' placeholder='city'> and <input id='p8' class='fill-input' placeholder='country'> came to the <input id='p9' class='fill-input' placeholder='party'>. They brought <input id='p10' class='fill-input' placeholder='box'> full of <input id='p11' class='fill-input' placeholder='glass'> and <input id='p12' class='fill-input' placeholder='dish'>. We saw many <input id='p13' class='fill-input' placeholder='bus'> on the <input id='p14' class='fill-input' placeholder='way'>. Some <input id='p15' class='fill-input' placeholder='lady'> wore beautiful <input id='p16' class='fill-input' placeholder='dress'>. Their <input id='p17' class='fill-input' placeholder='baby'> played with <input id='p18' class='fill-input' placeholder='key'>. Under the <input id='p19' class='fill-input' placeholder='tree'>, there were some <input id='p20' class='fill-input' placeholder='fox'>. The <input id='p21' class='fill-input' placeholder='watch'> showed it was late. We spent many <input id='p22' class='fill-input' placeholder='day'> there. The <input id='p23' class='fill-input' placeholder='sky'> were blue. Our <input id='p24' class='fill-input' placeholder='family'> were happy.`;
+        document.getElementById('para-content').innerHTML = pText;
+    }
+
+    function checkParaAnswer() {
+        let paraScore = 0;
+        PARA_ANSWERS.forEach((ans, i) => {
+            let input = document.getElementById('p' + i).value.toLowerCase().trim();
+            if(input === ans) paraScore++;
+        });
+        score += paraScore;
+        endGame();
+    }
+
+    function myAlert(msg) { document.getElementById('alert-msg').innerText = msg; document.getElementById('custom-alert').style.visibility = 'visible'; }
+    function closeAlert() { document.getElementById('custom-alert').style.visibility = 'hidden'; }
+    function switchTab(t) {
+        document.getElementById('player-form').classList.toggle('hidden', t==='admin');
+        document.getElementById('admin-form').classList.toggle('hidden', t==='player');
+        document.getElementById('player-tab').classList.toggle('active', t==='player');
+        document.getElementById('admin-tab').classList.toggle('active', t==='admin');
     }
 </script>
 </body>
