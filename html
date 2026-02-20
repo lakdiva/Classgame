@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anu's English School - Plural Master 100</title>
+    <style>
+        :root { --primary: #2980b9; --secondary: #27ae60; --admin: #c0392b; --bg: #f4f7f6; }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: var(--bg); 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .container { 
+            background: white; 
+            width: 100%; 
+            max-width: 550px; 
+            padding: 20px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            text-align: center; 
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        /* Countdown Style */
+        #event-timer-box {
+            background: #ffeaa7;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #fdcb6e;
+        }
+        #event-countdown {
+            font-size: 20px;
+            font-weight: bold;
+            color: #d35400;
+        }
+
+        .chat-wrapper {
+            width: 100%;
+            max-width: 550px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: white;
+            margin-bottom: 20px;
+        }
+
+        iframe {
+            width: 100%;
+            border: none;
+            display: block;
+        }
+
+        .tab-buttons { display: flex; justify-content: center; margin-bottom: 25px; gap: 10px; }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: #dcdde1; cursor: pointer; border-radius: 10px; font-weight: bold; }
+        .tab-btn.active { background: var(--primary); color: white; }
+        input { box-sizing: border-box; padding: 15px; width: 100%; margin: 10px 0; border: 2px solid #eee; border-radius: 12px; font-size: 16px; outline: none; }
+        button.action-btn { padding: 15px; background: var(--secondary); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; margin-top: 15px; transition: 0.3s; }
+        button.action-btn:disabled { background: #bdc3c7; cursor: not-allowed; }
+        
+        .hidden { display: none; }
+        #timer { font-size: 26px; color: #e67e22; font-weight: bold; margin: 15px 0; }
+        #word-display { font-size: 28px; margin: 20px 0; color: var(--primary); font-weight: bold; border: 2px dashed #ddd; padding: 20px; border-radius: 15px; min-height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .opt-btn { background: #f8f9fa; border: 2px solid #e0e0e0; padding: 15px; font-size: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border-bottom: 1px solid #eee; padding: 10px; font-size: 12px; text-align: center; }
+        #stats-panel { display: flex; justify-content: space-around; background: #eee; padding: 10px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; }
+        #feedback { font-size: 16px; font-weight: bold; height: 35px; margin-bottom: 10px; }
+        .good { color: #27ae60; } .bad { color: #c0392b; }
+        #custom-alert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; visibility: hidden; }
+        .alert-content { background: white; padding: 25px; border-radius: 15px; width: 300px; text-align: center; }
+
+        @media (max-width: 480px) { .options { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body onload="initializeData(); startEventCountdown();">
+
+<div id="custom-alert">
+    <div class="alert-content">
+        <h3 style="margin-top:0; color:#c0392b;">නිවේදනයයි</h3>
+        <p id="alert-msg" style="font-weight:bold;"></p>
+        <button class="action-btn" style="width:100%; padding:10px; background:var(--primary);" onclick="closeAlert()">OK</button>
+    </div>
+</div>
+
+<div class="container">
+    <div id="home-screen">
+        <h1 style="color: #2c3e50; font-size: 24px;">🏫 Anu's English School</h1>
+        <h3>Plural Point Master Challenge</h3>
+        
+        <div class="tab-buttons">
+            <button class="tab-btn active" id="player-tab" onclick="switchTab('player')">ශිෂ්‍යයා</button>
+            <button class="tab-btn" id="admin-tab" onclick="switchTab('admin')">පරිපාලක</button>
+        </div>
+
+        <div id="player-form">
+            <div id="event-timer-box">
+                <div style="font-size: 14px; margin-bottom: 5px;">විභාගය ආරම්භ වීමට තව:</div>
+                <div id="event-countdown">ගණනය කරමින්...</div>
+            </div>
+
+            <div style="background: #fff3e0; padding: 12px; border-radius: 15px; text-align: left; margin-bottom: 15px; border-left: 5px solid #ff9800; font-size: 11px;">
+                <b>📝 විභාග විස්තර:</b>
+                <ul style="margin: 5px 0; padding-left: 20px;">
+                    <li>ප්‍රශ්න 100 කට විනාඩි 15 ක් ලැබේ.</li>
+                    <li>Singular පද සඳහා නිවැරදි Plural පදය තෝරන්න.</li>
+                    <li>එක් අයෙකුට සහභාගි විය හැක්කේ එක් වරක් පමණි.</li>
+                </ul>
+            </div>
+            <input type="text" id="user-name" placeholder="නම (Name)">
+            <input type="tel" id="user-phone" placeholder="දුරකථන අංකය (Phone)">
+            <button id="start-btn" class="action-btn" onclick="strictLogin()" disabled>විභාගය අරඹන්න</button>
+        </div>
+
+        <div id="admin-panel" class="hidden">
+            <input type="password" id="admin-pass" placeholder="Admin Password">
+            <button class="action-btn" style="background: var(--admin);" onclick="verifyAdmin()">Login Dashboard</button>
+        </div>
+
+        <div id="public-leaderboard" style="margin-top: 20px;">
+            <h3>🏆 Leaderboard</h3>
+            <div style="max-height: 250px; overflow-y: auto;">
+                <table>
+                    <thead><tr style="background:#eee;"><th>නම</th><th>ලකුණු</th><th>වෙලාව</th></tr></thead>
+                    <tbody id="public-score-list"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-screen" class="hidden">
+        <div id="timer">⏳ 15:00</div>
+        <div id="stats-panel">
+            <span id="score-display">Score: 0/100</span>
+            <span id="attempt-display">Q: 1/100</span>
+        </div>
+        <div id="feedback"></div>
+        <div id="word-display"></div>
+        <div class="options" id="options-container"></div>
+    </div>
+
+    <div id="congrats-screen" class="hidden">
+        <h1 style="color: #27ae60;">🎉 විභාගය අවසන්!</h1>
+        <p id="final-msg" style="font-size: 18px; font-weight: bold;"></p>
+        <button class="action-btn" onclick="location.reload()">මුලට යන්න</button>
+    </div>
+</div>
+
+<div class="chat-wrapper">
+    <iframe src="https://script.google.com/macros/s/AKfycbyeNNOW_bjGeUiKdCBD4HsKhYmJwyiiI99dy1-6w96KoY4iMwqI8DgwExLLPWerNDu8zQ/exec" height="450px"></iframe>
+</div>
+
+<script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxIev1NJSLlZDSEr8XuKcssjzX6pLQZsil8f6Ea4UmufE_J2NhdXjyzah4eaNlASvc8eQ/exec"; 
+    const ADMIN_SECRET = "51001992";
+    const allowedNumbers = ["0766047482","0763145183","0778272645","0740467774","84","0764531183", "0740238148","0761233325","0760903373","0762255334","0742780344", "0741435227", "0779810561", "0775140248", "0765578086", "0764483930", "0741247326", "0764678350", "0717199812", "0768519713", "5101", "0769071499", "0783887761", "0703534515"]; 
+
+    const PLURAL_DATA = [
+        {s:"Book", p:"Books", w:["Bookes", "Bookies", "Books s"]}, {s:"Pen", p:"Pens", w:["Penes", "Penies", "Pennes"]},
+        {s:"Cat", p:"Cats", w:["Cates", "Catties", "Catts"]}, {s:"Dog", p:"Dogs", w:["Doges", "Doggies", "Doggs"]},
+        {s:"Apple", p:"Apples", w:["Applees", "Applis", "Appless"]}, {s:"Table", p:"Tables", w:["Tablees", "Tabels", "Tableies"]},
+        {s:"Chair", p:"Chairs", w:["Chaires", "Chairies", "Chairs s"]}, {s:"Phone", p:"Phones", w:["Phons", "Phonees", "Phoneies"]},
+        {s:"Cup", p:"Cups", w:["Cupes", "Cuppies", "Cupss"]}, {s:"Egg", p:"Eggs", w:["Egges", "Eggis", "Eggies"]},
+        {s:"Bus", p:"Buses", w:["Buss", "Busies", "Buseses"]}, {s:"Box", p:"Boxes", w:["Boxs", "Boxies", "Boxees"]},
+        {s:"Watch", p:"Watches", w:["Watchs", "Watchies", "Watchees"]}, {s:"Brush", p:"Brushes", w:["Brushs", "Brushies", "Brushees"]},
+        {s:"Glass", p:"Glasses", w:["Glass", "Glassies", "Glasss"]}, {s:"Church", p:"Churches", w:["Churchs", "Churchies", "Churchees"]},
+        {s:"Dish", p:"Dishes", w:["Dishs", "Dishies", "Dishees"]}, {s:"Fox", p:"Foxes", w:["Foxs", "Foxies", "Foxees"]},
+        {s:"Match", p:"Matches", w:["Matchs", "Matchies", "Matchees"]}, {s:"Dress", p:"Dresses", w:["Dress", "Dressies", "Dresss"]},
+        {s:"Baby", p:"Babies", w:["Babys", "Babyes", "Babi"]}, {s:"City", p:"Cities", w:["Citys", "Cityes", "Citi"]},
+        {s:"Fly", p:"Flies", w:["Flys", "Flyes", "Fli"]}, {s:"Lady", p:"Ladies", w:["Ladys", "Ladyes", "Ladi"]},
+        {s:"Story", p:"Stories", w:["Storys", "Storyes", "Stori"]}, {s:"Puppy", p:"Puppies", w:["Puppys", "Puppyes", "Puppi"]},
+        {s:"Party", p:"Parties", w:["Partys", "Partyes", "Parti"]}, {s:"Family", p:"Families", w:["Familys", "Familyes", "Famili"]},
+        {s:"Cherry", p:"Cherries", w:["Cherrys", "Cherryes", "Cherri"]}, {s:"Candy", p:"Candies", w:["Candys", "Candyes", "Candi"]},
+        {s:"Leaf", p:"Leaves", w:["Leafs", "Leafes", "Leavis"]}, {s:"Knife", p:"Knives", w:["Knifes", "Knifis", "Knivees"]},
+        {s:"Wife", p:"Wives", w:["Wifes", "Wifis", "Wivees"]}, {s:"Thief", p:"Thieves", w:["Thiefs", "Thiefes", "Thievis"]},
+        {s:"Shelf", p:"Shelves", w:["Shelfs", "Shelfes", "Shelvis"]}, {s:"Wolf", p:"Wolves", w:["Wolfs", "Wolfes", "Wolvis"]},
+        {s:"Life", p:"Lives", w:["Lifes", "Lifis", "Livees"]}, {s:"Half", p:"Halves", w:["Halfs", "Halfes", "Halvis"]},
+        {s:"Man", p:"Men", w:["Mans", "Mens", "Meen"]}, {s:"Woman", p:"Women", w:["Womans", "Womens", "Womeen"]},
+        {s:"Child", p:"Children", w:["Childs", "Childrens", "Childes"]}, {s:"Foot", p:"Feet", w:["Foots", "Feets", "Footes"]},
+        {s:"Tooth", p:"Teeth", w:["Tooths", "Teeths", "Toothes"]}, {s:"Mouse", p:"Mice", w:["Mouses", "Mices", "Micees"]},
+        {s:"Goose", p:"Geese", w:["Gooses", "Geeses", "Goosees"]}, {s:"Person", p:"People", w:["Persons", "Peoples", "Persones"]},
+        {s:"Ox", p:"Oxen", w:["Oxs", "Oxes", "Oxens"]}, {s:"Sheep", p:"Sheep", w:["Sheeps", "Sheepes", "Sheepies"]},
+        {s:"Potato", p:"Potatoes", w:["Potatos", "Potatoies", "Potatoe"]}, {s:"Tomato", p:"Tomatoes", w:["Tomatos", "Tomatoies", "Tomatoe"]}
+    ];
+
+    while(PLURAL_DATA.length < 100) {
+        PLURAL_DATA.push(...PLURAL_DATA.slice(0, 100 - PLURAL_DATA.length));
+    }
+
+    let score = 0, idx = 0, time = 900, timer, uName, uPhone, currentCorrect;
+    let serverScores = [];
+
+    // --- NEW LOGIC FOR DATE LOCK ---
+    function startEventCountdown() {
+        const targetDate = new Date("Feb 23, 2026 20:00:00").getTime();
+        const startBtn = document.getElementById('start-btn');
+        const countdownEl = document.getElementById('event-countdown');
+        const timerBox = document.getElementById('event-timer-box');
+
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                clearInterval(x);
+                startBtn.disabled = false;
+                timerBox.style.display = "none";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            countdownEl.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+            startBtn.disabled = true;
+        }, 1000);
+    }
+    // ------------------------------
+
+    function myAlert(msg) { document.getElementById('alert-msg').innerText = msg; document.getElementById('custom-alert').style.visibility = 'visible'; }
+    function closeAlert() { document.getElementById('custom-alert').style.visibility = 'hidden'; }
+
+    function switchTab(t) { 
+        document.getElementById('player-form').classList.toggle('hidden', t==='admin');
+        document.getElementById('admin-panel').classList.toggle('hidden', t==='player');
+        document.getElementById('public-leaderboard').classList.toggle('hidden', t==='admin');
+        document.getElementById('player-tab').classList.toggle('active', t==='player');
+        document.getElementById('admin-tab').classList.toggle('active', t==='admin');
+    }
+
+    async function initializeData() {
+        try {
+            const r = await fetch(API_URL);
+            const data = await r.json();
+            serverScores = data.scores || [];
+            renderLeaderboard(serverScores);
+        } catch(e) { console.log("Load failed"); }
+    }
+
+    function verifyAdmin() {
+        if(document.getElementById('admin-pass').value === ADMIN_SECRET) {
+            myAlert("Admin Login successful!");
+        } else { alert("වැරදි මුර පදයකි!"); }
+    }
+
+    async function strictLogin() {
+        uName = document.getElementById('user-name').value.trim();
+        uPhone = document.getElementById('user-phone').value.trim();
+        
+        if(!uName || !uPhone) return myAlert("කරුණාකර නම සහ අංකය ඇතුළත් කරන්න.");
+        if(!allowedNumbers.includes(uPhone)) return myAlert("මෙම දුරකථන අංකය ලියාපදිංචි කර නැත.");
+        
+        const hasAlreadyPlayed = serverScores.some(s => String(s.phone).trim() === uPhone);
+        if(hasAlreadyPlayed) return myAlert("ඔබ දැනටමත් මෙම විභාගයට සහභාගි වී ඇත.");
+
+        document.getElementById('start-btn').innerText = "පරීක්ෂා කරමින්...";
+        document.getElementById('start-btn').disabled = true;
+        
+        await saveToServer(0); 
+
+        document.getElementById('home-screen').classList.add('hidden');
+        document.getElementById('game-screen').classList.remove('hidden');
+        startGame();
+    }
+
+    function startGame() {
+        timer = setInterval(() => {
+            time--;
+            let m=Math.floor(time/60), s=time%60;
+            document.getElementById('timer').innerText = `⏳ ${m}:${s<10?'0':''}${s}`;
+            if(time<=0) endGame();
+        }, 1000);
+        next();
+    }
+
+    function next() {
+        if(idx >= 100) return endGame();
+        const container = document.getElementById('options-container');
+        const display = document.getElementById('word-display');
+        document.getElementById('feedback').innerText = ""; 
+        container.innerHTML = ""; 
+
+        let q = PLURAL_DATA[idx];
+        display.innerHTML = `<div style='font-size:16px; color:gray;'>Singular:</div><div>${q.s}</div>`;
+        currentCorrect = q.p;
+        
+        let opts = shuffle([q.p, ...q.w]);
+        opts.forEach(o => container.appendChild(createBtn(o, () => check(o === currentCorrect))));
+    }
+
+    function createBtn(t, fn) { 
+        const b = document.createElement('button'); 
+        b.className="opt-btn"; 
+        b.innerText=t; 
+        b.onclick=fn; 
+        return b; 
+    }
+
+    function check(isCorrect) {
+        if(isCorrect) { 
+            score++; 
+            document.getElementById('feedback').innerHTML = "<span class='good'>✅ Correct!</span>"; 
+        } else { 
+            document.getElementById('feedback').innerHTML = "<span class='bad'>❌ Wrong!</span>"; 
+        }
+        document.getElementById('score-display').innerText = `Score: ${score}/100`;
+        document.getElementById('attempt-display').innerText = `Q: ${idx+1}/100`;
+        
+        idx++; 
+        setTimeout(next, 500);
+    }
+
+    function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
+
+    async function saveToServer(finalScore) {
+        const dateStr = new Date().toLocaleString('en-GB');
+        try {
+            await fetch(API_URL, { 
+                method: 'POST', 
+                mode: 'no-cors',
+                body: JSON.stringify({ action: "saveScore", data: { name: uName, phone: uPhone, score: finalScore, date: dateStr } }) 
+            });
+        } catch(e) { console.log("Save failed"); }
+    }
+
+    async function endGame() {
+        clearInterval(timer);
+        document.getElementById('game-screen').innerHTML = "<h2>ලකුණු සුරැකෙමින් පවතී...</h2>";
+        
+        await saveToServer(score);
+        
+        setTimeout(() => {
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('congrats-screen').classList.remove('hidden');
+            document.getElementById('final-msg').innerText = `${uName}, ඔබ ලබාගත් ලකුණු: ${score}/100`;
+        }, 1500);
+    }
+
+    function renderLeaderboard(data) {
+        const uniqueEntries = {};
+        data.forEach(item => { uniqueEntries[item.phone] = item; });
+        const finalData = Object.values(uniqueEntries);
+
+        finalData.sort((a,b) => b.score - a.score);
+        document.getElementById('public-score-list').innerHTML = finalData.map((s, index) => {
+            let gift = index === 0 ? "🥇" : (index === 1 ? "🥈" : (index === 2 ? "🥉" : ""));
+            return `<tr><td>${gift} ${s.name}</td><td>${s.score}</td><td>${s.date.split(',')[1] || ""}</td></tr>`;
+        }).join("");
+    }
+</script>
+</body>
+</html>
