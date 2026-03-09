@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anu's English School - Plural Master 100</title>
+    <title>Anu's English School - Article Master 100</title>
     <style>
         :root { --primary: #2980b9; --secondary: #27ae60; --admin: #c0392b; --reg: #8e44ad; --bg: #f4f7f6; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 10px; box-sizing: border-box; }
@@ -20,7 +20,7 @@
         button.action-btn:disabled { background: #bdc3c7; cursor: not-allowed; }
         .hidden { display: none; }
         #timer { font-size: 26px; color: #e67e22; font-weight: bold; margin: 15px 0; }
-        #word-display { font-size: 28px; margin: 20px 0; color: var(--primary); font-weight: bold; border: 2px dashed #ddd; padding: 20px; border-radius: 15px; min-height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        #word-display { font-size: 24px; margin: 20px 0; color: var(--primary); font-weight: bold; border: 2px dashed #ddd; padding: 20px; border-radius: 15px; min-height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .opt-btn { background: #f8f9fa; border: 2px solid #e0e0e0; padding: 15px; font-size: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
@@ -46,7 +46,6 @@
 <div class="container">
     <div id="home-screen">
         <h1 style="color: #2c3e50; font-size: 24px;">🏫 Anu's English School</h1>
-        
         <div class="tab-buttons">
             <button class="tab-btn active" id="player-tab" onclick="switchTab('player')">විභාගයට පෙනී සිටින්න</button>
             <button class="tab-btn" id="reg-tab" onclick="switchTab('register')">ලියාපදිංචි වන්න</button>
@@ -55,7 +54,6 @@
 
         <div id="register-form" class="hidden">
             <h3 style="color: var(--reg);">📝 ශිෂ්‍ය ලියාපදිංචිය</h3>
-            <p style="font-size: 12px; color: #7f8c8d;">විභාගය සඳහා සහභාගී වීමට ප්‍රථම මෙහි ලියාපදිංචි වන්න.</p>
             <input type="text" id="reg-name" placeholder=" නම (Full Name)">
             <input type="tel" id="reg-phone" placeholder="දුරකථන අංකය (Phone Number)">
             <button id="reg-btn" class="action-btn" style="background: var(--reg);" onclick="registerStudent()">ලියාපදිංචි වන්න</button>
@@ -69,11 +67,9 @@
             <div style="background: #fff3e0; padding: 12px; border-radius: 15px; text-align: left; margin-bottom: 15px; border-left: 5px solid #ff9800; font-size: 11px;">
                 <b>📝 විභාග විස්තර:</b>
                 <ul style="margin: 5px 0; padding-left: 20px;">
-                    <li>ප්‍රශ්න 100 කට විනාඩි 15 ක් ලැබේ.</li>
-                    <li>ලියාපදිංචි වූ සිසුන්ට පමණක් සහභාගී විය හැක.</li>
-                    <li>එක වරක් ඇතුළු වු පසු නැවත අවස්ථාවක් නොදේ.</li>
-                     <li>දුරකථන අංක හෝ වෙනත් ඔනෑම අංකයක් භාවිතා කර කැමති අවස්ථාවක් තරඟයට සහභාගි විය හැකිය.</li>
-                     <li>මුල්ම ලකුණු 100 ලබා ගන්නා තිදෙනාට පමණක් ත්‍යාගය හිමි වේ.</li>
+                    <li>A, AN, THE භාවිතය පිළිබඳ ප්‍රශ්න 100 කි.</li>
+                    <li>පළමු ප්‍රශ්න 70 තේරීම (MCQ) වේ.</li>
+                    <li>අවසන් ප්‍රශ්න 30 Paragraph එකක හිස්තැන් පිරවීම (Typing) වේ.</li>
                 </ul>
             </div>
             <input type="text" id="user-name" placeholder="නම (Name)">
@@ -121,6 +117,10 @@
         <div id="feedback"></div>
         <div id="word-display"></div>
         <div class="options" id="options-container"></div>
+        <div id="typing-area" class="hidden">
+            <input type="text" id="typed-answer" placeholder="Type a / an / the..." style="text-align: center;">
+            <button class="action-btn" onclick="checkTyping()">Confirm Answer</button>
+        </div>
     </div>
 
     <div id="congrats-screen" class="hidden">
@@ -131,11 +131,11 @@
 </div>
 
 <div class="chat-wrapper">
-    <iframe src="https://script.google.com/macros/s/AKfycbyeNNOW_bjGeUiKdCBD4HsKhYmJwyiiI99dy1-6w96KoY4iMwqI8DgwExLLPWerNDu8zQ/exec" height="450px"></iframe>
+    <iframe src="https://script.google.com/macros/s/AKfycbzanewqPtDlsd_sVIMAFF4IB1CAnicxG1fqtG7lhALqbRpvBLBDbTEhKaaVexoOq_rElQ/exec" height="450px"></iframe>
 </div>
 
 <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwduV-Ydn7QVN0E78bCfBnw5NQEClRBPoOOwGa6sAWTkbZ5AWxH1s0JG4YXLE00RKPu/exec"; 
+    const API_URL = "https://script.google.com/macros/s/AKfycbyARjl96-DFS60_XzKrJgrx3g2AJzmqh_VNf9d78JjAa-FCMK-eJ3mGh3BfIpkcWZuF/exec"; 
     const ADMIN_SECRET = "51001992";
     
     let registeredUsers = []; 
@@ -143,113 +143,109 @@
     let score = 0, idx = 0, time = 900, timer, uName, uPhone, currentCorrect;
 
     const PLURAL_DATA = [
-        // 1-25: Body Parts (Show Sinhala -> Pick English)
-        {sin:"හිස", p:"Head", w:["Hand", "Heel", "Hair"]},
-        {sin:"කෙස්", p:"Hair", w:["Heir", "Hare", "Hire"]},
-        {sin:"මුහුණ", p:"Face", w:["Fact", "Fase", "Fake"]},
-        {sin:"නළල", p:"Forehead", w:["Forward", "Face", "Head"]},
-        {sin:"ඇස", p:"Eye", w:["Ear", "Ice", "Eel"]},
-        {sin:"ඇහි බැම", p:"Eyebrow", w:["Eyelash", "Eyelid", "Eye"]},
-        {sin:"ඇසිපිය මයිල්", p:"Eyelash", w:["Eyebrow", "Eyelid", "Eye"]},
-        {sin:"ඇසිපිය", p:"Eyelid", w:["Eyelash", "Eyebrow", "Eye"]},
-        {sin:"ඇසේ කළු ඉංගිරියාව", p:"Pupil", w:["Purple", "Pill", "Palate"]},
-        {sin:"කන", p:"Ear", w:["Eye", "Eat", "Era"]},
-        {sin:"කන් පෙත්ත", p:"Earlobe", w:["Earring", "Ear", "Ear-cap"]},
-        {sin:"නාසය", p:"Nose", w:["Node", "Noise", "None"]},
-        {sin:"නාස් පුඩුව", p:"Nostril", w:"Nose", w:["Nose", "Noisy", "Normal"]},
-        {sin:"කම්මුල", p:"Cheek", w:["Check", "Chin", "Chest"]},
-        {sin:"කට", p:"Mouth", w:["Mouse", "Month", "Moth"]},
-        {sin:"තොල", p:"Lip", w:["Lap", "Lid", "Tip"]},
-        {sin:"දත", p:"Tooth", w:["Teeth", "Truth", "Booth"]},
-        {sin:"දිව", p:"Tongue", w:["Tonge", "Tung", "Tounge"]},
-        {sin:"තල්ල", p:"Palate", p:"Palate", w:["Plate", "Pilot", "Pupil"]},
-        {sin:"හකු ඇටය", p:"Jaw", w:["Jew", "Joy", "Jam"]},
-        {sin:"නිකට", p:"Chin", w:["Check", "Cheek", "Chain"]},
-        {sin:"බෙල්ල", p:"Neck", w:["Next", "Nick", "Necklace"]},
-        {sin:"උගුර", p:"Throat", w:["Thread", "Through", "Threat"]},
-        {sin:"උරහිස", p:"Shoulder", w:["Soldier", "Sholder", "Shoulderpad"]},
-        {sin:"පපුව", p:"Chest", w:["Chess", "Chase", "Chart"]},
+        // 1-70: Articles (A, AN, THE) MCQ
+        {s:"___ apple a day keeps the doctor away.", p:"An", w:["A", "The"]},
+        {s:"I saw ___ elephant at the zoo.", p:"an", w:["a", "the"]},
+        {s:"He is ___ university student.", p:"a", w:["an", "the"]},
+        {s:"___ Sun rises in the East.", p:"The", w:["A", "An"]},
+        {s:"I need ___ umbrella as it's raining.", p:"an", w:["a", "the"]},
+        {s:"She is ___ most beautiful girl.", p:"the", w:["a", "an"]},
+        {s:"Can you give me ___ pen?", p:"a", w:["an", "the"]},
+        {s:"___ moon looks bright tonight.", p:"The", w:["A", "An"]},
+        {s:"It was ___ honest mistake.", p:"an", w:["a", "the"]},
+        {s:"I will be there in ___ hour.", p:"an", w:["a", "the"]},
+        {s:"Sri Lanka is ___ island.", p:"an", w:["a", "the"]},
+        {s:"He is ___ European traveler.", p:"a", w:["an", "the"]},
+        {s:"___ Nile is the longest river.", p:"The", w:["A", "An"]},
+        {s:"I bought ___ new car yesterday.", p:"a", w:["an", "the"]},
+        {s:"___ water in this bottle is cold.", p:"The", w:["A", "An"]},
+        {s:"She has ___ orange in her bag.", p:"an", w:["a", "the"]},
+        {s:"My father is ___ engineer.", p:"an", w:["a", "the"]},
+        {s:"Do you have ___ 100 rupee note?", p:"a", w:["an", "the"]},
+        {s:"___ Himalayas are very high.", p:"The", w:["A", "An"]},
+        {s:"I want to be ___ astronaut.", p:"an", w:["a", "the"]},
+        {s:"___ book you gave me is great.", p:"The", w:["A", "An"]},
+        {s:"They live in ___ small house.", p:"a", w:["an", "the"]},
+        {s:"Is there ___ ATM near here?", p:"an", w:["a", "the"]},
+        {s:"___ rich should help the poor.", p:"The", w:["A", "An"]},
+        {s:"He plays ___ piano very well.", p:"the", w:["a", "an"]},
+        {s:"She eating ___ ice cream.", p:"an", w:["a", "the"]},
+        {s:"___ Pacific Ocean is vast.", p:"The", w:["A", "An"]},
+        {s:"Give me ___ egg.", p:"an", w:["a", "the"]},
+        {s:"I saw ___ one-eyed man.", p:"a", w:["an", "the"]},
+        {s:"___ sky is blue.", p:"The", w:["A", "An"]},
+        {s:"He is ___ honorable man.", p:"an", w:["a", "the"]},
+        {s:"Wait for ___ minute.", p:"a", w:["an", "the"]},
+        {s:"___ cats are on the roof.", p:"The", w:["A", "An"]},
+        {s:"I have ___ idea.", p:"an", w:["a", "the"]},
+        {s:"___ Bible is a holy book.", p:"The", w:["A", "An"]},
+        {s:"This is ___ unique chance.", p:"a", w:["an", "the"]},
+        {s:"___ President will arrive soon.", p:"The", w:["A", "An"]},
+        {s:"She is ___ FBI agent.", p:"an", w:["a", "the"]},
+        {s:"I like ___ blue dress.", p:"the", w:["a", "an"]},
+        {s:"___ Earth goes around the Sun.", p:"The", w:["A", "An"]},
+        {s:"Is he ___ doctor?", p:"a", w:["an", "the"]},
+        {s:"It is ___ ugly duckling.", p:"an", w:["a", "the"]},
+        {s:"I read ___ interesting book.", p:"an", w:["a", "the"]},
+        {s:"___ capital of France is Paris.", p:"The", w:["A", "An"]},
+        {s:"He has ___ parrot.", p:"a", w:["an", "the"]},
+        {s:"___ stars are shining.", p:"The", w:["A", "An"]},
+        {s:"She wants ___ onion.", p:"an", w:["a", "the"]},
+        {s:"I am ___ Indian.", p:"an", w:["a", "the"]},
+        {s:"___ Taj Mahal is in India.", p:"The", w:["A", "An"]},
+        {s:"Can I have ___ cup of tea?", p:"a", w:["an", "the"]},
+        {s:"He is ___ old man.", p:"an", w:["a", "the"]},
+        {s:"___ breakfast was delicious.", p:"The", w:["A", "An"]},
+        {s:"I have ___ laptop.", p:"a", w:["an", "the"]},
+        {s:"___ dog is barking.", p:"The", w:["A", "An"]},
+        {s:"It's ___ honor to meet you.", p:"an", w:["a", "the"]},
+        {s:"___ children are playing.", p:"The", w:["A", "An"]},
+        {s:"Do you want ___ banana?", p:"a", w:["an", "the"]},
+        {s:"I need ___ eraser.", p:"an", w:["a", "the"]},
+        {s:"___ wind is blowing.", p:"The", w:["A", "An"]},
+        {s:"He is ___ uncle of mine.", p:"an", w:["a", "the"]},
+        {s:"I see ___ ship.", p:"a", w:["an", "the"]},
+        {s:"___ Titanic sank in 1912.", p:"The", w:["A", "An"]},
+        {s:"She is ___ MA student.", p:"an", w:["a", "the"]},
+        {s:"Wait for ___ second.", p:"a", w:["an", "the"]},
+        {s:"___ flowers are beautiful.", p:"The", w:["A", "An"]},
+        {s:"He is ___ hero.", p:"a", w:["an", "the"]},
+        {s:"I saw ___ UFO.", p:"a", w:["an", "the"]},
+        {s:"___ milk is in the fridge.", p:"The", w:["A", "An"]},
+        {s:"She has ___ uniform.", p:"a", w:["an", "the"]},
+        {s:"___ cat is under the table.", p:"The", w:["A", "An"]},
 
-        // 26-50: Body Parts (Show English -> Pick Sinhala)
-        {s:"Back", p:"පිට", w:["බඩ", "ඉණ", "පපුව"]},
-        {s:"Stomach", p:"බඩ", w:["පපුව", "පිට", "ඉණ"]},
-        {s:"Navel", p:"බිම්බිස්ස (පෙකණිය)", w:["බඩ", "ඉණ", "පිට"]},
-        {s:"Waist", p:"ඉණ", w:["උකුල", "පිට", "බඩ"]},
-        {s:"Hip", p:"උකුල", w:["ඉණ", "තට්ටම", "කලවය"]},
-        {s:"Armpit", p:"කිහිල්ල", w:["අත", "වැලමිට", "උරහිස"]},
-        {s:"Spine", p:"කොන්ද (කශේරුකාව)", w:["ඉළ ඇටය", "අස්ථිය", "ස්නායුව"]},
-        {s:"Rib", p:"ඉළ ඇටය", w:["කොන්ද", "පපුව", "අස්ථිය"]},
-        {s:"Buttock", p:"තට්ටම", w:["ඉණ", "කලවය", "උකුල"]},
-        {s:"Abdomen", p:"උදරය", w:["බඩ", "පපුව", "ඉණ"]},
-        {s:"Arm", p:"අත", w:["කකුල", "ඇඟිල්ල", "අල්ල"]},
-        {s:"Elbow", p:"වැලමිට", w:["මැණික් කටුව", "අල්ල", "උරහිස"]},
-        {s:"Wrist", p:"මැණික් කටුව", w:["වැලමිට", "අල්ල", "ඇඟිල්ල"]},
-        {s:"Hand", p:"අල්ල/අත", w:["පිටි අල්ල", "මිට", "ඇඟිල්ල"]},
-        {s:"Palm", p:"අල්ල", w:["පිටි අල්ල", "මිට", "ඇඟිල්ල"]},
-        {s:"Finger", p:"ඇඟිල්ල", w:["නියපොත්ත", "අල්ල", "මිට"]},
-        {s:"Thumb", p:"මහපට ඇඟිල්ල", w:["දබරැඟිල්ල", "සුළැඟිල්ල", "මිට"]},
-        {s:"Fingernail", p:"නියපොත්ත", w:["ඇඟිල්ල", "අල්ල", "මිට"]},
-        {s:"Fist", p:"මිට", w:["අල්ල", "ඇඟිල්ල", "නියපොත්ත"]},
-        {s:"Leg", p:"කකුල", w:["අත", "කලවය", "දණහිස"]},
-        {s:"Knee", p:"දණහිස", w:["කලවය", "කෙණ්ඩය", "වලලුකර"]},
-        {s:"Ankle", p:"වලලුකර", w:["විලුඹ", "යටි පතුල", "දණහිස"]},
-        {s:"Foot", p:"පාදය (පතුල)", w:["කකුල", "ඇඟිල්ල", "වලලුකර"]},
-        {s:"Heel", p:"විලුඹ", w:["වලලුකර", "යටි පතුල", "ඇඟිල්ල"]},
-        {s:"Toe", p:"පාදයේ ඇඟිල්ල", w:["අතේ ඇඟිල්ල", "නියපොත්ත", "විලුඹ"]},
-
-        // 51-75: Disciplines (Show Sinhala -> Pick English)
-        {sin:"නිශ්ශබ්දතාවය", p:"Silence", w:["Quiet", "Orderly", "Focus"]},
-        {sin:"අවධානය", p:"Attention", w:["Respect", "Honesty", "Focus"]},
-        {sin:"ගෞරවය", p:"Respect", w:["Kindness", "Patience", "Effort"]},
-        {sin:"කීකරුකම", p:"Obedience", w:["Silence", "Discipline", "Rules"]},
-        {sin:"වේලාවට වැඩ කිරීම", p:"Punctuality", w:["Attendance", "Progress", "Safety"]},
-        {sin:"සහයෝගීතාවය", p:"Cooperation", w:["Teamwork", "Sharing", "Leadership"]},
-        {sin:"විනය", p:"Discipline", w:["Rules", "Orderly", "Safety"]},
-        {sin:"සහභාගීත්වය", p:"Participation", w:["Attendance", "Effort", "Sharing"]},
-        {sin:"ආචාරශීලී බව", p:"Politeness", w:["Manners", "Kindness", "Respect"]},
-        {sin:"යහපත් සිරිත් විරිත්", p:"Manners", w:["Politeness", "Respect", "Rules"]},
-        {sin:"සවන් දීම", p:"Listening", w:["Focus", "Silence", "Quiet"]},
-        {sin:"නිශ්ශබ්ද", p:"Quiet", w:["Silence", "Slow", "Calm"]},
-        {sin:"පිළිවෙල", p:"Orderly", w:["Cleanliness", "Neatness", "Safety"]},
-        {sin:"ගෙදර වැඩ", p:"Homework", w:["Assignment", "Lesson", "Class"]},
-        {sin:"පැවරුම", p:"Assignment", w:["Homework", "Project", "Task"]},
-        {sin:"ඒකාග්‍රතාවය", p:"Concentration", w:["Focus", "Silence", "Effort"]},
-        {sin:"අවධානය යොමු කිරීම", p:"Focus", w:["Concentration", "Attention", "Listening"]},
-        {sin:"අවංකකම", p:"Honesty", w:["Integrity", "Kindness", "Patience"]},
-        {sin:"ප්‍රතිපත්තිගරුක බව", p:"Integrity", w:["Honesty", "Responsibility", "Respect"]},
-        {sin:"ඉවසීම", p:"Patience", w:["Kindness", "Silence", "Effort"]},
-        {sin:"වගකීම", p:"Responsibility", w:["Leadership", "Effort", "Rules"]},
-        {sin:"නායකත්වය", p:"Leadership", w:["Responsibility", "Teamwork", "Progress"]},
-        {sin:"සාමූහික ක්‍රියාකාරකම්", p:"Teamwork", w:["Cooperation", "Sharing", "Leadership"]},
-        {sin:"බෙදාහදා ගැනීම", p:"Sharing", w:["Helpfulness", "Kindness", "Teamwork"]},
-        {sin:"උපකාරී බව", p:"Helpfulness", w:["Kindness", "Sharing", "Effort"]},
-
-        // 76-100: Disciplines (Show English -> Pick Sinhala)
-        {s:"Kindness", p:"කරුණාවන්තකම", w:["ඉවසීම", "අවංකකම", "ගෞරවය"]},
-        {s:"Forgiveness", p:"සමාව දීම", w:["සමාව අයැදීම", "කරුණාවන්තකම", "ඉවසීම"]},
-        {s:"Effort", p:"උත්සාහය", w:["ප්‍රගතිය", "ජයග්‍රහණය", "විනය"]},
-        {s:"Progress", p:"ප්‍රගතිය", w:["උත්සාහය", "ජයග්‍රහණය", "වගකීම"]},
-        {s:"Achievement", p:"ජයග්‍රහණය", w:["ප්‍රගතිය", "උත්සාහය", "නායකත්වය"]},
-        {s:"Rules", p:"නීති", w:["විනය", "පිළිවෙල", "ආරක්ෂාව"]},
-        {s:"Permission", p:"අවසරය", w:["ඉල්ලීම", "සමාව අයැදීම", "ගෞරවය"]},
-        {s:"Request", p:"ඉල්ලීම", w:["අවසරය", "සමාව අයැදීම", "පැවරුම"]},
-        {s:"Apology", p:"සමාව අයැදීම", w:["සමාව දීම", "අවසරය", "ඉල්ලීම"]},
-        {s:"Gratitude", p:"කෘතඥතාවය", w:["ගෞරවය", "කරුණාවන්තකම", "සමාව දීම"]},
-        {s:"Neatness", p:"පිළිවෙල / පිරිසිදුකම", w:["ආරක්ෂාව", "නීති", "විනය"]},
-        {s:"Cleanliness", p:"පිරිසිදුකම", w:["පිළිවෙල", "ආරක්ෂාව", "විනය"]},
-        {s:"Safety", p:"ආරක්ෂාව", w:["පිරිසිදුකම", "පිළිවෙල", "නීති"]},
-        {s:"Uniform", p:"නිල ඇඳුම", w:["ගෙදර වැඩ", "පැවරුම", "විභාගය"]},
-        {s:"Attendance", p:"පැමිණීම", p:"පැමිණීම", w:["සහභාගීත්වය", "නායකත්වය", "විනය"]},
-        {s:"Success", p:"සාර්ථකත්වය", w:["ජයග්‍රහණය", "ප්‍රගතිය", "උත්සාහය"]},
-        {s:"Goal", p:"ඉලක්කය", w:["ජයග්‍රහණය", "වගකීම", "ප්‍රගතිය"]},
-        {s:"Confidence", p:"විශ්වාසය", w:["අවංකකම", "ඉවසීම", "නායකත්වය"]},
-        {s:"Courage", p:"ධෛර්යය", w:["උත්සාහය", "ඉවසීම", "කරුණාව"]},
-        {s:"Loyalty", p:"විශ්වාසවන්තකම", w:["අවංකකම", "ගෞරවය", "කීකරුකම"]},
-        {s:"Diligence", p:"කඩිසරකම", w:["උත්සාහය", "විනය", "ප්‍රගතිය"]},
-        {s:"Wisdom", p:"ප්‍රඥාව/බුද්ධිය", w:["කරුණාව", "අවංකකම", "ඉවසීම"]},
-        {s:"Unity", p:"එකමුතුකම", w:["සාමූහිකත්වය", "සහයෝගීතාවය", "නායකත්වය"]},
-        {s:"Peace", p:"සාමය", w:["නිශ්ශබ්දතාවය", "සන්සුන්කම", "ගෞරවය"]},
-        {s:"Ambition", p:"අභිලාෂය", w:["ඉලක්කය", "උත්සාහය", "ජයග්‍රහණය"]}
+        // 71-100: Typing Paragraph
+        {s:"Yesterday, I went to ___ zoo.", p:"the"},
+        {s:"I bought ___ ticket at the gate.", p:"a"},
+        {s:"First, I saw ___ huge lion.", p:"a"},
+        {s:"___ lion was sleeping in the sun.", p:"The"},
+        {s:"Then, I saw ___ elephant.", p:"an"},
+        {s:"___ elephant was eating grass.", p:"The"},
+        {s:"Nearby, there was ___ ostrich.", p:"an"},
+        {s:"It was ___ biggest bird I saw.", p:"the"},
+        {s:"I saw ___ group of monkeys.", p:"a"},
+        {s:"___ monkeys were jumping on trees.", p:"the"},
+        {s:"I ate ___ ice cream for lunch.", p:"an"},
+        {s:"It was ___ very hot day.", p:"a"},
+        {s:"I saw ___ eagle in a cage.", p:"an"},
+        {s:"___ eagle had sharp claws.", p:"The"},
+        {s:"I found ___ umbrella on a bench.", p:"an"},
+        {s:"I gave it to ___ security guard.", p:"the"},
+        {s:"He was ___ honest man.", p:"an"},
+        {s:"I saw ___ giraffe with a long neck.", p:"a"},
+        {s:"___ neck was very long.", p:"The"},
+        {s:"There was ___ lake inside.", p:"a"},
+        {s:"___ water was very clean.", p:"The"},
+        {s:"I saw ___ owl in the tree.", p:"an"},
+        {s:"___ owl was looking at me.", p:"The"},
+        {s:"It was ___ unforgettable trip.", p:"an"},
+        {s:"I hope to visit ___ zoo again.", p:"the"},
+        {s:"I took ___ photo of a tiger.", p:"a"},
+        {s:"___ tiger looked very scary.", p:"The"},
+        {s:"I spent ___ hour there.", p:"an"},
+        {s:"It was ___ best day of my life.", p:"the"},
+        {s:"I am ___ happy boy now.", p:"a"}
     ];
 
     async function initializeData() {
@@ -259,9 +255,6 @@
             serverScores = data.scores || [];
             registeredUsers = data.registrations || [];
             renderLeaderboard(serverScores);
-            if(!document.getElementById('admin-dashboard').classList.contains('hidden')) {
-                showAdminRegistrations(); 
-            }
         } catch(e) { console.log("Load failed"); }
     }
 
@@ -269,30 +262,28 @@
         let rName = document.getElementById('reg-name').value.trim();
         let rPhone = document.getElementById('reg-phone').value.trim();
         if(!rName || !rPhone) return myAlert("කරුණාකර නම සහ අංකය ඇතුළත් කරන්න.");
-        
         const btn = document.getElementById('reg-btn');
-        btn.innerText = "ලියාපදිංචි වෙමින්...";
-        btn.disabled = true;
-
+        btn.innerText = "ලියාපදිංචි වෙමින්..."; btn.disabled = true;
+        
         try {
+            const postData = { action: "register", data: { name: rName, phone: rPhone, date: new Date().toLocaleString() } };
             await fetch(API_URL, { 
                 method: 'POST', 
                 mode: 'no-cors', 
-                body: JSON.stringify({ action: "register", data: { name: rName, phone: rPhone, date: new Date().toLocaleString() } }) 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(postData) 
             });
             myAlert("ලියාපදිංචිය සාර්ථකයි! දැන් ඔබට ලොග් විය හැක.");
-            
-            setTimeout(async () => {
-                await initializeData();
-                switchTab('player');
-                document.getElementById('user-name').value = rName;
-                document.getElementById('user-phone').value = rPhone;
-                btn.innerText = "ලියාපදිංචි වන්න";
-                btn.disabled = false;
+            setTimeout(async () => { 
+                await initializeData(); 
+                switchTab('player'); 
+                btn.innerText = "ලියාපදිංචි වන්න"; 
+                btn.disabled = false; 
             }, 2000);
         } catch(e) { 
-            myAlert("දෝෂයකි. පසුව උත්සාහ කරන්න."); 
-            btn.disabled = false;
+            myAlert("දෝෂයකි. කරුණාකර නැවත උත්සාහ කරන්න."); 
+            btn.disabled = false; 
+            btn.innerText = "ලියාපදිංචි වන්න";
         }
     }
 
@@ -300,13 +291,10 @@
         uName = document.getElementById('user-name').value.trim();
         uPhone = document.getElementById('user-phone').value.trim();
         if(!uName || !uPhone) return myAlert("නම සහ අංකය ඇතුළත් කරන්න.");
-
         const isRegistered = registeredUsers.some(user => String(user.phone).trim() === uPhone);
         if(!isRegistered) return myAlert("මෙම අංකය ලියාපදිංචි කර නැත.");
-
         const hasAlreadyPlayed = serverScores.some(s => String(s.phone).trim() === uPhone && s.score > 0);
         if(hasAlreadyPlayed) return myAlert("ඔබ දැනටමත් විභාගයට සහභාගි වී ඇත.");
-
         document.getElementById('home-screen').classList.add('hidden');
         document.getElementById('game-screen').classList.remove('hidden');
         startGame();
@@ -323,63 +311,36 @@
     function toggleAdminView(view) {
         document.getElementById('btn-view-reg').classList.toggle('active', view === 'reg');
         document.getElementById('btn-view-scores').classList.toggle('active', view === 'scores');
-        if(view === 'reg') showAdminRegistrations();
-        else showAdminScores();
+        if(view === 'reg') showAdminRegistrations(); else showAdminScores();
     }
 
     function showAdminRegistrations() {
         const head = document.getElementById('admin-table-head');
         const body = document.getElementById('admin-table-body');
         head.innerHTML = "<tr><th>නම</th><th>අංකය</th><th>Action</th></tr>";
-        body.innerHTML = registeredUsers.map(u => `
-            <tr>
-                <td>${u.name}</td>
-                <td>${u.phone}</td>
-                <td><button class="del-btn" onclick="deleteEntry('register', '${u.phone}')">Delete</button></td>
-            </tr>
-        `).join("");
+        body.innerHTML = registeredUsers.map(u => `<tr><td>${u.name}</td><td>${u.phone}</td><td><button class="del-btn" onclick="deleteEntry('register', '${u.phone}')">Delete</button></td></tr>`).join("");
     }
 
     function showAdminScores() {
         const head = document.getElementById('admin-table-head');
         const body = document.getElementById('admin-table-body');
         head.innerHTML = "<tr><th>නම</th><th>ලකුණු</th><th>Action</th></tr>";
-        body.innerHTML = serverScores.map(s => `
-            <tr>
-                <td>${s.name}</td>
-                <td>${s.score}</td>
-                <td><button class="del-btn" onclick="deleteEntry('score', '${s.phone}')">Delete</button></td>
-            </tr>
-        `).join("");
+        body.innerHTML = serverScores.map(s => `<tr><td>${s.name}</td><td>${s.score}</td><td><button class="del-btn" onclick="deleteEntry('score', '${s.phone}')">Delete</button></td></tr>`).join("");
     }
 
     async function deleteEntry(type, phone) {
         if(!confirm("මෙම දත්තය මැකීමට අවශ්‍ය බව ස්ථිරද?")) return;
         myAlert("මකමින් පවතී...");
         try {
+            const delData = { action: "delete", type: type, phone: phone };
             await fetch(API_URL, { 
                 method: 'POST', 
                 mode: 'no-cors', 
-                body: JSON.stringify({ action: "delete", type: type, phone: phone }) 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(delData) 
             });
             setTimeout(initializeData, 1500);
         } catch(e) { alert("Delete failed"); }
-    }
-
-    function startEventCountdown() {
-        const targetDate = new Date("March 02, 2026 18:00:00").getTime(); 
-        const x = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById('start-btn').disabled = false;
-                document.getElementById('event-timer-box').style.display = "none";
-                return;
-            }
-            const d = Math.floor(distance / (1000 * 60 * 60 * 24)), h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)), s = Math.floor((distance % (1000 * 60)) / 1000);
-            document.getElementById('event-countdown').innerHTML = `${d}d ${h}h ${m}m ${s}s`;
-        }, 1000);
     }
 
     function startGame() {
@@ -396,78 +357,67 @@
         if(idx >= 100) return endGame();
         const container = document.getElementById('options-container');
         const display = document.getElementById('word-display');
+        const typingArea = document.getElementById('typing-area');
         document.getElementById('feedback').innerText = ""; 
         container.innerHTML = ""; 
         let q = PLURAL_DATA[idx];
-        
         document.getElementById('attempt-display').innerText = `Q: ${idx+1}/100`;
-
-        if (idx < 25) {
-            // Part 1: Body Parts (Sinhala -> English)
-            display.innerHTML = `<div style='font-size:14px; color:gray;'>ශරීර කොටසෙහි ඉංග්‍රීසි නම තෝරන්න:</div><div style='color:#2980b9;'>${q.sin}</div>`;
-        } else if (idx < 50) {
-            // Part 2: Body Parts (English -> Sinhala)
-            display.innerHTML = `<div style='font-size:14px; color:gray;'>What is the Sinhala meaning?</div><div style='color:#2c3e50;'>${q.s}</div>`;
-        } else if (idx < 75) {
-            // Part 3: Disciplines (Sinhala -> English)
-            display.innerHTML = `<div style='font-size:14px; color:gray;'>අදාළ ඉංග්‍රීසි වචනය තෝරන්න:</div><div style='color:#27ae60;'>${q.sin}</div>`;
-        } else {
-            // Part 4: Disciplines (English -> Sinhala)
-            display.innerHTML = `<div style='font-size:14px; color:gray;'>Select the correct Sinhala meaning:</div><div style='color:#8e44ad;'>${q.s}</div>`;
-        }
-
+        display.innerHTML = `<div style='font-size:14px; color:gray;'>Fill in the blank with A, AN, or THE:</div><br> ${q.s}`;
         currentCorrect = q.p;
-        shuffle([q.p, ...q.w]).forEach(o => container.appendChild(createBtn(o, () => check(o === currentCorrect))));
+
+        if(idx < 70) {
+            typingArea.classList.add('hidden');
+            container.classList.remove('hidden');
+            shuffle([q.p, ...q.w]).forEach(o => container.appendChild(createBtn(o, () => check(o === currentCorrect))));
+        } else {
+            container.classList.add('hidden');
+            typingArea.classList.remove('hidden');
+            document.getElementById('typed-answer').value = "";
+            document.getElementById('typed-answer').focus();
+        }
+    }
+
+    function checkTyping() {
+        let val = document.getElementById('typed-answer').value.trim().toLowerCase();
+        check(val === currentCorrect.toLowerCase());
     }
 
     function createBtn(t, fn) { const b = document.createElement('button'); b.className="opt-btn"; b.innerText=t; b.onclick=fn; return b; }
     
     function check(isCorrect) {
         if(isCorrect) { score++; document.getElementById('feedback').innerHTML = "<span class='good'>✅ Correct!</span>"; }
-        else { document.getElementById('feedback').innerHTML = "<span class='bad'>❌ Wrong!</span>"; }
+        else { document.getElementById('feedback').innerHTML = `<span class='bad'>❌ Wrong! (Ans: ${currentCorrect})</span>`; }
         document.getElementById('score-display').innerText = `Score: ${score}/100`;
-        idx++; setTimeout(next, 400);
+        idx++; setTimeout(next, 600);
     }
 
     function shuffle(a) { return a.sort(() => Math.random() - 0.5); }
 
-    async function saveToServer(fs) {
-        try { await fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: "saveScore", data: { name: uName, phone: uPhone, score: fs, date: new Date().toLocaleString() } }) }); } catch(e) {}
-    }
-
     async function endGame() {
         clearInterval(timer);
         document.getElementById('game-screen').innerHTML = "<h2>සුරැකෙමින් පවතී...</h2>";
-        await saveToServer(score);
+        try { 
+            const finalData = { action: "saveScore", data: { name: uName, phone: uPhone, score: score, date: new Date().toLocaleString() } };
+            await fetch(API_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(finalData) 
+            }); 
+        } catch(e) { console.log("Save failed"); }
+        
         setTimeout(() => {
             document.getElementById('game-screen').classList.add('hidden');
             document.getElementById('congrats-screen').classList.remove('hidden');
             document.getElementById('final-msg').innerText = `${uName}, ඔබ ලබාගත් ලකුණු: ${score}/100`;
-        }, 1000);
+        }, 1500);
     }
 
     function renderLeaderboard(data) {
         const unique = {};
-        // එක් අයෙකුට පෙනී සිටිය හැක්කේ එක් වරක් බැවින් ඉහළම ලකුණු ගන්නා අවස්ථාව තෝරාගනී
-        data.forEach(item => { 
-            if(!unique[item.phone] || item.score > unique[item.phone].score) {
-                unique[item.phone] = item; 
-            }
-        });
-        
+        data.forEach(item => { if(!unique[item.phone] || item.score > unique[item.phone].score) { unique[item.phone] = item; } });
         const final = Object.values(unique).sort((a,b) => b.score - a.score);
-        
-        document.getElementById('public-score-list').innerHTML = final.map((s, i) => {
-            // දිනය සහ වේලාව ලස්සනට format කිරීම
-            let entryDate = s.date ? s.date : ""; 
-            
-            return `
-            <tr>
-                <td>${i < 3 ? ['🥇','🥈','🥉'][i] : (i + 1)} ${s.name}</td>
-                <td style="font-weight:bold; color:#27ae60;">${s.score}</td>
-                <td style="font-size:10px; color:#666;">${entryDate}</td>
-            </tr>`;
-        }).join("");
+        document.getElementById('public-score-list').innerHTML = final.map((s, i) => `<tr><td>${i < 3 ? ['🥇','🥈','🥉'][i] : (i + 1)} ${s.name}</td><td style="font-weight:bold; color:#27ae60;">${s.score}</td><td style="font-size:10px; color:#666;">${s.date || ""}</td></tr>`).join("");
     }
 
     function myAlert(msg) { document.getElementById('alert-msg').innerText = msg; document.getElementById('custom-alert').style.visibility = 'visible'; }
@@ -476,12 +426,21 @@
         document.getElementById('player-form').classList.toggle('hidden', t!=='player');
         document.getElementById('register-form').classList.toggle('hidden', t!=='register');
         document.getElementById('admin-panel').classList.toggle('hidden', t!=='admin');
-        document.getElementById('public-leaderboard').classList.toggle('hidden', t==='admin' || t==='register');
         document.getElementById('player-tab').className = t==='player' ? 'tab-btn active' : 'tab-btn';
         document.getElementById('reg-tab').className = t==='register' ? 'tab-btn active' : 'tab-btn';
         document.getElementById('admin-tab').className = t==='admin' ? 'tab-btn active' : 'tab-btn';
     }
+    
+    function startEventCountdown() {
+        const targetDate = new Date("March 06, 2026 18:00:00").getTime(); 
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            if (distance < 0) { clearInterval(x); document.getElementById('start-btn').disabled = false; document.getElementById('event-timer-box').style.display = "none"; return; }
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24)), h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)), s = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById('event-countdown').innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+        }, 1000);
+    }
 </script>
 </body>
 </html>
-
